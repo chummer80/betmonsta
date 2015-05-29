@@ -1,0 +1,18 @@
+Users:
+	sign up page  (new/create)
+	self settings (edit/update)
+	leaderboards 
+	dashboard
+
+Bets:
+	Place bets 
+	bet history
+	pending bets
+
+Sessions:
+	log in (new/create)
+	log out (destroy)
+
+Welcome / Application? 
+	Landing page
+	About

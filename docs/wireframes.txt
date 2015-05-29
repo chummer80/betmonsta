@@ -1,0 +1,15 @@
+landing page: https://wireframe.cc/focKC7
+
+leaderboards: https://wireframe.cc/CNBnwf
+
+log in: https://wireframe.cc/xEqXEf
+
+sign up: https://wireframe.cc/hh1fQc
+
+dashboard: https://wireframe.cc/DD4uo1
+
+pending bets: https://wireframe.cc/yFXgUu
+
+bet history: https://wireframe.cc/LPvSSW
+
+place bets: https://wireframe.cc/UzgdWL
