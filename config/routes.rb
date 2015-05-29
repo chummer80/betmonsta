@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new', as: :new_user
   post '/', to: 'users#create', as: :create_user
 
+  get 'login', to: 'sessions#new', as: :new_session
+  post 'sessions/create', to: 'sessions#create', as: :create_session
+  get 'sessions/destroy' => 'sessions#destroy', as: :destroy_session
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

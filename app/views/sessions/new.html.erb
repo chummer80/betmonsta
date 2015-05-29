@@ -1,0 +1,13 @@
+<h1>Log In</h1>
+
+<%= render 'flash' %>
+
+<%= form_for @user, url: create_session_path do |f| %>
+	<%= f.label :username%>
+	<%= f.text_field :username%>
+	<br><br>
+	<%= f.label :password %>
+	<%= f.password_field :password %>
+	<br><br>
+	<%= f.submit "Submit" %>
+<% end %>

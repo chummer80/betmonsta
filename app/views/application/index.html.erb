@@ -1,3 +1,10 @@
 <h1>welcome</h1>
 
-<%= link_to "Sign Up", new_user_path %>
+<%= render 'flash' %>
+
+<% if current_user %>
+	<%= link_to "Log Out", destroy_session_path %>
+<% else %>
+	<%= link_to "Sign Up", new_user_path %>
+	<%= link_to "Log In", new_session_path %>
+<% end %>
