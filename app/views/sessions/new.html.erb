@@ -1,7 +1,5 @@
 <h1>Log In</h1>
 
-<%= render 'flash' %>
-
 <%= form_for @user, url: create_session_path do |f| %>
 	<%= f.label :username%>
 	<%= f.text_field :username%>

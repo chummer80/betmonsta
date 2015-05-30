@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'application#index', as: :landing_page
 
-  get '/', to: 'users#index', as: :users
+  get 'users', to: 'users#index', as: :users
   get 'signup', to: 'users#new', as: :new_user
-  post '/', to: 'users#create', as: :create_user
+  post 'users', to: 'users#create', as: :create_user
 
   get 'login', to: 'sessions#new', as: :new_session
   post 'sessions/create', to: 'sessions#create', as: :create_session

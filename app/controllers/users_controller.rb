@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
 	def index
+		redirect_to landing_page_path
 	end
 
 	def new

@@ -1,7 +1,5 @@
 <h1>welcome</h1>
 
-<%= render 'flash' %>
-
 <% if current_user %>
 	<%= link_to "Log Out", destroy_session_path %>
 <% else %>
