@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-
+	before_action :authorize, only: [:dashboard]
+	before_action :unauthorize, only: [:new]
+	
 	def index
 		redirect_to landing_page_path
 	end
@@ -23,8 +25,6 @@ class UsersController < ApplicationController
 				flash[:success] = 'You have been registered'
 			else
 				flash[:error] = 'Unable to register you as new user'
-				# @user = User.new
-				# render :new
 			end
 		end
 			
@@ -33,6 +33,9 @@ class UsersController < ApplicationController
 		else
 			redirect_to new_user_path
 		end
+	end
 
+	def dashboard
+		@user = current_user
 	end
 end

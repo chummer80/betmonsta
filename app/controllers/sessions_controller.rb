@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-
+	before_action :unauthorize, only: [:new]
+	
 	def new
 		@user = User.new
 	end

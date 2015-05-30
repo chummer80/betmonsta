@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'users', to: 'users#index', as: :users
   get 'signup', to: 'users#new', as: :new_user
   post 'users', to: 'users#create', as: :create_user
+  get 'dashboard', to: 'users#dashboard', as: :user_dashboard
 
   get 'login', to: 'sessions#new', as: :new_session
   post 'sessions/create', to: 'sessions#create', as: :create_session

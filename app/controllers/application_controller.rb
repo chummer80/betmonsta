@@ -21,4 +21,10 @@ protected
   	end
   end
 
+  def unauthorize
+    if current_user
+        flash[:error] = "You must log out to view that page"
+        redirect_to user_dashboard_path
+    end
+  end
 end
