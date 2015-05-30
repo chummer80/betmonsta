@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>BetMonsta</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<%= render 'flash' %>
-<% if current_user %>
-	<%= "Logged in as #{current_user[:username]}" %>
-<% end %>
-<%= yield %>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-</body>
+    <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+	<%= render 'flash' %>
+	<% if current_user %>
+		<%= "Logged in as #{current_user[:username]}" %>
+	<% end %>
+    <%= yield %>
+
+  </body>
 </html>

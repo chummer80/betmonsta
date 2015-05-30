@@ -1,7 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
 
-
 class OddsSharkScraper
 	@@base_url = "http://www.oddsshark.com"
 

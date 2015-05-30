@@ -16,14 +16,14 @@ protected
 
   def authorize
   	unless current_user
-  		flash[:error] = "You must log in to view that page"
+  		flash[:alert] = "You must log in to view that page"
   		redirect_to new_session_path
   	end
   end
 
   def unauthorize
     if current_user
-        flash[:error] = "You must log out to view that page"
+        flash[:alert] = "You must log out to view that page"
         redirect_to user_dashboard_path
     end
   end

@@ -15,16 +15,16 @@ class UsersController < ApplicationController
 		
 		existing_user = User.where(username: user_params[:username]).first
 		if existing_user
-			flash[:error] = "That username is taken!"
+			flash[:alert] = "That username is taken!"
 		elsif user_params[:password] != user_params[:password_confirmation]
-			flash[:error] = "Passwords didn't match"
+			flash[:alert] = "Passwords didn't match"
 		else
 			new_user = User.create(user_params)
 
 			if new_user.valid?
 				flash[:success] = 'You have been registered'
 			else
-				flash[:error] = 'Unable to register you as new user'
+				flash[:alert] = 'Unable to register you as new user'
 			end
 		end
 			
