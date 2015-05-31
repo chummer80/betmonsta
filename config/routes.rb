@@ -7,12 +7,12 @@ Rails.application.routes.draw do
 
   get 'users', to: 'users#index', as: :users
   get 'signup', to: 'users#new', as: :new_user
-  post 'users', to: 'users#create', as: :create_user
+  post 'signup', to: 'users#create', as: :create_user
   get 'dashboard', to: 'users#dashboard', as: :user_dashboard
 
   get 'login', to: 'sessions#new', as: :new_session
-  post 'sessions/create', to: 'sessions#create', as: :create_session
-  get 'sessions/destroy' => 'sessions#destroy', as: :destroy_session
+  post 'login', to: 'sessions#create', as: :create_session
+  get 'logout' => 'sessions#destroy', as: :destroy_session
 
 
   # Example of regular route:

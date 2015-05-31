@@ -13,25 +13,34 @@ class UsersController < ApplicationController
 	def create
 		user_params = params.require(:user).permit(:username, :password, :password_confirmation)
 		
-		existing_user = User.where(username: user_params[:username]).first
-		if existing_user
-			flash[:alert] = "That username is taken!"
-		elsif user_params[:password] != user_params[:password_confirmation]
-			flash[:alert] = "Passwords didn't match"
-		else
-			new_user = User.create(user_params)
+		error_msg = ""
 
-			if new_user.valid?
+		if User.find_by(username: user_params[:username])
+			error_msg = "That username is taken!"
+		elsif user_params[:password] != user_params[:password_confirmation]
+			error_msg = "Passwords didn't match"
+		else
+			# set some default values for user stats
+			user_params[:balance] = 0.0
+			user_params[:max_balance] = 0.0
+			user_params[:ten_day_profit] = 0.0
+			user_params[:thirty_day_profit] = 0.0
+			user_params[:total_profit] = 0.0
+			user_params[:admin] = false
+
+			if User.create(user_params).valid?
 				flash[:success] = 'You have been registered'
 			else
-				flash[:alert] = 'Unable to register you as new user'
+				error_msg = 'Unable to register you as new user'
 			end
 		end
 			
-		if flash[:success]
+		if error_msg.empty?
 			redirect_to landing_page_path
 		else
-			redirect_to new_user_path
+			@user = User.new(user_params)	# retain form input for user-friendliness
+			flash.now[:alert] = error_msg
+			render 'new'
 		end
 	end
 
