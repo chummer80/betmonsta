@@ -13,5 +13,45 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
-
+ *= require util
  */
+
+@import 'util';
+
+$primary_hue: 140;
+$primary_color: hsl($primary_hue, 45%, 50%);	/* emerald green */
+
+header {
+	padding: 20px;
+	background-color: $primary_color;
+	color: white;
+	text-align: center;
+
+	#title {
+		font-size: 50px;
+	}
+
+	#user-dropdown-group {
+		div {
+			display: inline-block;
+		}
+	}
+
+	#login-links {
+		a {
+			color: white;
+			margin-left: 15px;
+		}
+	}
+}
+
+.open-dropdown-indicator {
+	@include triangle(5px, white, 'down');
+}
+
+.centered-med-up {
+	@media screen and (min-width: 640px) {
+		display: flex;
+		align-items: center;
+	}
+}
