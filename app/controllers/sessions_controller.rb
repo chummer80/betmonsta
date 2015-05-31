@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 		user = User.where(username: user_params[:username]).first
 
 		if user && user.authenticate(user_params[:password])
-			session[:user_id] = user.id
+			log_in user
 			flash[:success] = "Log in successful"
 			redirect_to user_dashboard_path
 	    else
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
 	end
 
 	def destroy
-		session[:user_id] = nil
+		log_out if current_user
 		flash[:success] = "You have been logged out"
 		redirect_to landing_page_path
 	end

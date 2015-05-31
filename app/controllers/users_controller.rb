@@ -28,7 +28,9 @@ class UsersController < ApplicationController
 			user_params[:total_profit] = 0.0
 			user_params[:admin] = false
 
-			if User.create(user_params).valid?
+			user = User.create(user_params)
+			if user.valid?
+				log_in(user)
 				flash[:success] = 'You have been registered'
 			else
 				error_msg = 'Unable to register you as new user'
