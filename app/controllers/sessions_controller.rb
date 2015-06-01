@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
 		if user && user.authenticate(user_params[:password])
 			log_in user
-			flash[:success] = "Log in successful"
+			# flash[:success] = "Log in successful"
 			redirect_to user_dashboard_path
 	    else
 	    	@user = User.new(user_params)
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
 	def destroy
 		log_out if current_user
-		flash[:success] = "You have been logged out"
+		# flash[:success] = "You have been logged out"
 		redirect_to landing_page_path
 	end
 end

@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 			user = User.create(user_params)
 			if user.valid?
 				log_in(user)
-				flash[:success] = 'You have been registered'
+				# flash[:success] = 'You have been registered'
 			else
 				error_msg = 'Unable to register you as new user'
 			end
