@@ -3,7 +3,7 @@
 
 	<div id="title" class="medium-6 medium-offset-3 columns">BetMonsta</div>
 
-	<% if current_user %>
+	<% if logged_in? %>
 		<div id="user-dropdown-group" class="medium-3 columns">
 			<div id="user-dropdown-link" class="dropdown" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false">
 				<%= "Logged in as #{current_user.username}" %>
@@ -11,7 +11,7 @@
 			</div>
 
 			<ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true">
-				<li><%= link_to "User Settings", '#' %></li>
+				<li><%= link_to "User Settings", user_path %></li>
 				<li><%= link_to "Log Out", destroy_session_path %></li>
 			</ul>
 		</div>

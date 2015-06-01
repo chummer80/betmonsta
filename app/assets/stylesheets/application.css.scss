@@ -69,3 +69,7 @@ section#content {
 	padding: 25px;
 	margin: 0 auto;
 }
+
+input[type="submit"] {
+	@include button();
+}

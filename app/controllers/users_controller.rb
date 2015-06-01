@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :authorize, only: [:dashboard]
+	before_action :authorize, only: [:dashboard, :show, :edit]
 	before_action :unauthorize, only: [:new]
 	
 	def index
@@ -47,6 +47,14 @@ class UsersController < ApplicationController
 	end
 
 	def dashboard
+		@user = current_user
+	end
+
+	def show
+		@user = current_user
+	end
+
+	def edit
 		@user = current_user
 	end
 end

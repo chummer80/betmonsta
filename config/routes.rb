@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new', as: :new_user
   post 'signup', to: 'users#create', as: :create_user
   get 'dashboard', to: 'users#dashboard', as: :user_dashboard
+  get 'settings', to: 'users#show', as: :user
+  get 'edit', to: 'users#edit', as: :edit_user
 
   get 'login', to: 'sessions#new', as: :new_session
   post 'login', to: 'sessions#create', as: :create_session
