@@ -12,11 +12,12 @@
  *
  *= require_tree .
  *= require_self
- *= require foundation_and_overrides
+ *comment= require foundation_and_overrides
  *= require util
  */
 
 @import 'util';
+@import 'foundation_and_overrides';
 
 $primary_hue: 140;
 $primary_color: hsl($primary_hue, 45%, 50%);	/* emerald green */
@@ -50,8 +51,15 @@ header {
 }
 
 .centered-med-up {
-	@media screen and (min-width: 640px) {
+	@media #{$medium-up} {
 		display: flex;
 		align-items: center;
+	}
+}
+
+nav.top-bar:not(.expanded) {
+	text-align: center;
+	section.top-bar-section { 
+		display: inline-block; 
 	}
 }

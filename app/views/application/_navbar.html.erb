@@ -1,0 +1,31 @@
+<% if current_user %>
+	<div class="sticky">
+		<nav class="top-bar" data-topbar role="navigation">
+			<ul class="title-area">
+		    	<li class="name"></li>
+	    		<li class="toggle-topbar"><a href="#"><span>Menu</span></a></li>
+	  		</ul>
+
+			<section class="top-bar-section">
+			    <ul>
+			      <li><%= link_to "Dashboard", user_dashboard_path %></li>
+			      <li class="has-dropdown">
+			        <a href="#">Place Bets</a>
+			        <ul class="dropdown">
+			          <li><a href="#">NBA</a></li>
+			          <li><a href="#">NFL</a></li>
+			          <li><a href="#">MLB</a></li>
+			        </ul>
+			      </li>
+			      <li class="has-dropdown">
+			        <a href="#">View Bets</a>
+			        <ul class="dropdown">
+			          <li><a href="#">Pending Bets</a></li>
+			          <li><a href="#">Bet History</a></li>
+			        </ul>
+			      </li>
+			    </ul>
+			</section>
+		</nav>
+	</div>
+<% end %>
