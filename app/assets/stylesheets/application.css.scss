@@ -63,3 +63,9 @@ nav.top-bar:not(.expanded) {
 		display: inline-block; 
 	}
 }
+
+section#content {
+	max-width: 1000px;
+	padding: 25px;
+	margin: 0 auto;
+}
