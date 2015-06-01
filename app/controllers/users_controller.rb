@@ -54,7 +54,40 @@ class UsersController < ApplicationController
 		@user = current_user
 	end
 
-	def edit
+	def edit_password
 		@user = current_user
+	end
+
+	def update_password
+		user = current_user
+		error_msg = ""
+		if user.authenticate params[:password]
+			if params[:new_password] == params[:new_password_confirmation]
+				if user.update_attributes({password: params[:new_password]})
+					redirect_to user_path
+				else
+					error_msg = "Unable to update password"
+				end
+			else
+				error_msg = "You must enter the same new password twice in order to change it"
+			end
+		else
+			error_msg = "Current password was incorrect"
+		end
+
+		unless error_msg.empty?
+			flash[:alert] = error_msg
+			redirect_to edit_password_path
+		end		
+	end
+
+	def confirm_delete
+	end
+
+	def destroy
+		user = current_user
+		log_out
+		user.destroy
+		redirect_to landing_page_path
 	end
 end

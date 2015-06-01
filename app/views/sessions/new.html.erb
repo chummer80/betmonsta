@@ -1,8 +1,8 @@
 <% title "Log In" %>
 
 <%= form_for @user, url: create_session_path, method: 'post' do |f| %>
-	<%= f.label :username%>
-	<%= f.text_field :username%>
+	<%= f.label :username %>
+	<%= f.text_field :username %>
 	<br><br>
 	<%= f.label :password %>
 	<%= f.password_field :password %>
