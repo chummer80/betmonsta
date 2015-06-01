@@ -23,9 +23,6 @@
         <% if content_for?(:title) %>
           <h1><%= yield(:title) %></h1>
         <% end %>
-        <% if logged_in? %>
-          <h3>Balance: <%= number_to_currency current_user.balance %></h3>
-        <% end %>
 
         <%= yield %>
       </section>

@@ -2,6 +2,8 @@
 
 <h3>Username: <%= @user.username %></h3>
 
+<h3>Balance: <%= number_to_currency current_user.balance %></h3>
+
 <%= button_to "Change Password", edit_password_path, method: :get %>
 
 <%= button_to "Delete Account", confirm_delete_user_path, method: :get %>
