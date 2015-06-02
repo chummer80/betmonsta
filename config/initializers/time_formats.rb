@@ -1,0 +1,1 @@
+Time::DATE_FORMATS[:short_12h] = '%b %e, %l:%M %p'

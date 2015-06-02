@@ -1,0 +1,25 @@
+// Place all the styles related to the bets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'foundation_and_overrides';
+
+.lines-table {
+	border: 1px solid black;
+	font-size: 16px;
+
+	@media #{$medium-up} {
+		font-size: 23px;
+	}
+
+	.lines_table_header.row {
+		border-bottom: 10px solid black;
+	}
+
+	.row {
+		border-bottom: 1px solid black;
+		
+		.columns {
+			border-right: 1px solid black;
+		}
+	}
+}

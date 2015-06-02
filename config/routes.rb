@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create', as: :create_session
   get 'logout' => 'sessions#destroy', as: :destroy_session
 
+  get 'placebets/:sport', to: 'bets#create', as: :create_bets
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

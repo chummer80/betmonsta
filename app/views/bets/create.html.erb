@@ -1,0 +1,42 @@
+<% title "Place Bets: #{@sport.upcase}" %>
+
+<% if @lines.empty? %>
+	<h3>There are no available lines</h3>
+<% else %>
+	<div class="lines-table">
+		<div class="lines_table_header row">
+			<div class="small-4 columns">Date/Time</div>
+			<div class="small-6 columns">Team</div>
+			<div class="small-2 columns"><%= @bet_type == :spread ? "Spread" : "Moneyline" %></div>
+		</div>
+
+		<% show_line = @bet_type == :spread ? :spread : :odds %>
+		<% @lines.each do |line| %>
+			<div class="match row">
+				<div class="small-4 columns">
+					<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
+				</div>
+				<div class="small-8 columns">
+					<div class="home-team row">
+						<div class="small-9 columns">
+							<%= line[:teams][:home] + " at" %>
+						</div>
+						<div class="small-3 columns">
+							<%= line_to_s(line[show_line][:home]) %>
+						</div>
+					</div>
+
+					<div class="away-team row">
+						<div class="small-9 columns">
+							<%= line[:teams][:away] %>
+						</div>
+						<div class="small-3 columns">
+							<%= line_to_s(line[show_line][:away]) %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+
+	</div>
+<% end %>
