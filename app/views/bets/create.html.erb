@@ -13,7 +13,7 @@
 		<% show_line = @bet_type == :spread ? :spread : :odds %>
 		<% @lines.each do |line| %>
 			<div class="match row">
-				<div class="small-4 columns">
+				<div class="small-4 columns date-time">
 					<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
 				</div>
 				<div class="small-8 columns">

@@ -22,4 +22,14 @@
 			border-right: 1px solid black;
 		}
 	}
+
+	.match.row {
+		display: flex;
+		align-items: stretch;
+
+		.date-time {
+			display: flex;
+			align-items: center;
+		}
+	}
 }

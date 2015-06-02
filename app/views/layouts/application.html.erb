@@ -7,8 +7,8 @@
     <title><%= content_for?(:title) ? yield(:title) : "BetMonsta" %></title>
 
     <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag "vendor/modernizr", defer: true %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true, defer: true %>
     <%= csrf_meta_tags %>
   </head>
 
