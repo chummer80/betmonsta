@@ -57,9 +57,13 @@ private
 	
 	def self.get_date_time(match_node)
 		time_node = match_node.css('.header-time').children.first
-		time = time_node.text.strip + " EST"
+		time_str = time_node.text.strip
 
-		DateTime.strptime(time, '%B %d %I:%M %p %Z')
+		# OddsShark shows times in EST time zone
+		# use Rails time zones to build time object
+		Time.use_zone('Eastern Time (US & Canada)') do
+			Time.zone.parse(time_str)
+		end
 	end
 
 	def self.get_teams(match_node)
