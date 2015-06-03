@@ -22,6 +22,10 @@
 $primary_hue: 140;
 $primary_color: hsl($primary_hue, 45%, 50%);	/* emerald green */
 
+* {
+	box-sizing: border-box;
+}
+
 header {
 	padding: 20px;
 	background-color: $primary_color;
