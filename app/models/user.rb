@@ -1,9 +1,16 @@
 class User < ActiveRecord::Base
 	attr_accessor :remember_token
 	has_secure_password
+  has_many :bets
 
 	validates :username, presence: true, uniqueness: { case_sensitive: false }
-	validates :password, presence: true
+  validates :password, presence: true
+  validates :balance, presence: true, numericality: {greater_than: 0}
+  validates :max_balance, presence: true, numericality: {greater_than: 0}
+  validates :ten_day_profit, presence: true
+  validates :thirty_day_profit, presence: true
+	validates :total_profit, presence: true
+
 
 	# Returns the hash digest of the given string.
 	def User.digest(string)

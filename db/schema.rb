@@ -11,10 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531034155) do
+ActiveRecord::Schema.define(version: 20150603040535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bets", force: :cascade do |t|
+    t.datetime "match_time"
+    t.string   "sport"
+    t.string   "home_team"
+    t.string   "away_team"
+    t.boolean  "home_picked"
+    t.integer  "spread"
+    t.integer  "odds"
+    t.float    "risk_amount"
+    t.datetime "result_time"
+    t.string   "result"
+    t.float    "resulting_balance"
+    t.integer  "user_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "bets", ["user_id"], name: "index_bets_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -30,4 +49,5 @@ ActiveRecord::Schema.define(version: 20150531034155) do
     t.string   "remember_digest"
   end
 
+  add_foreign_key "bets", "users"
 end
