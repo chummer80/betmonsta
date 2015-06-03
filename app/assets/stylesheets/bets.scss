@@ -4,11 +4,16 @@
 @import 'foundation_and_overrides';
 
 .lines-table {
-	border: 1px solid black;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
 	font-size: 16px;
 
 	@media #{$medium-up} {
 		font-size: 23px;
+	}
+
+	.centered-col {
+		text-align: center;
 	}
 
 	.lines_table_header.row {
@@ -16,20 +21,37 @@
 	}
 
 	.row {
-		border-bottom: 1px solid black;
+		// border-bottom: 1px solid black;
 		
 		.columns {
+			border-top: 1px solid black;
 			border-right: 1px solid black;
 		}
 	}
 
 	.match.row {
+		border-top: 4px solid black;
 		display: flex;
 		align-items: stretch;
 
 		.date-time {
 			display: flex;
 			align-items: center;
+		}
+
+		.home-team.row, .away-team.row {
+			display: flex;
+			align-items: stretch;
+
+			.bet-input-cell {
+				display: flex;
+				justify-content: center;
+
+				.switch {
+					display: flex;
+					align-items: center;
+				}
+			}
 		}
 	}
 }

@@ -2,7 +2,7 @@ require 'OddsSharkScraper'
 
 class BetsController < ApplicationController
 
-	def create
+	def new
 		@sport = params[:sport]
 
 		@lines = OddsSharkScraper.get_lines(@sport)
@@ -12,5 +12,13 @@ class BetsController < ApplicationController
 		else
 			@bet_type = :spread
 		end
+	end
+
+	def create
+		sport = params[:sport]
+		lines = params[:lines]
+		boxes = params[:boxes].values
+
+		redirect_to new_bets_path(sport)
 	end
 end
