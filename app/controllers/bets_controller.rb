@@ -5,12 +5,19 @@ class BetsController < ApplicationController
 	def new
 		@sport = params[:sport]
 
-		@lines = OddsSharkScraper.get_lines(@sport)
-		
-		if @sport == "mlb"
-			@bet_type = :moneyline
+		# if @sport == "nba" || @sport == "nfl" || @sport == "mlb"
+		if %w(nba nfl mlb).include?(@sport)
+			@lines = OddsSharkScraper.get_lines(@sport)
+			
+			if @sport == "mlb"
+				@bet_type = :moneyline
+			else
+				@bet_type = :spread
+			end
 		else
-			@bet_type = :spread
+			flash[:alert] = "#{@sport} is not a valid option"
+			@sport = "Error"
+			@lines = []
 		end
 	end
 
