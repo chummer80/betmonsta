@@ -11,7 +11,7 @@ module SessionsHelper
 		@current_user = nil
 	end
 
-	# Remembers a user in a persistent session.
+	# Use cookies to keep a user logged in even if browser is closed and re-opened
   def remember(user)
     user.remember
     cookies.permanent.signed[:user_id] = user.id
@@ -25,11 +25,19 @@ module SessionsHelper
   end
 
 	def current_user
+    # Try to use session to keep user logged in first
   	if (user_id = session[:user_id])
    		@current_user ||= User.find_by(id: user_id)
+
+    # Try to use cookies as the backup (because some people disable cookies)
    	elsif (user_id = cookies.signed[:user_id])
    		user = User.find_by(id: user_id)
-   		if user && user.authenticated?(cookies[:remember_token])
+   		
+      # Check if the user indicated by the cookies user_id is still
+      # continuing the same log in session that was used to create this cookie.
+      # This is done by checking if the cookies remember token is the
+      # correct "password" that matches the user's current remember_digest.
+      if user && user.authenticated?(cookies[:remember_token])
 	     	log_in(user)
      		@current_user = user
    		end
@@ -40,6 +48,7 @@ module SessionsHelper
     current_user != nil
   end
 
+  # restrict access to some pages unless there is a logged in user
   def authorize
   	unless current_user
   		flash[:alert] = "You must log in to view that page"
@@ -47,6 +56,7 @@ module SessionsHelper
   	end
   end
 
+  # restrict access to some pages if a user is logged in
   def unauthorize
    	if current_user
      	flash[:alert] = "You must log out to view that page"

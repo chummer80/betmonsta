@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :authorize, only: [:dashboard, :show, :edit]
+	before_action :authorize, only: [:dashboard, :show, :edit_password, :confirm_delete]
 	before_action :unauthorize, only: [:new]
 	
 	def index
@@ -31,16 +31,16 @@ class UsersController < ApplicationController
 			user = User.create(user_params)
 			if user.valid?
 				log_in(user)
-				# flash[:success] = 'You have been registered'
+				redirect_to user_dashboard_path
+				return
 			else
 				error_msg = 'Unable to register you as new user'
 			end
 		end
 			
-		if error_msg.empty?
-			redirect_to landing_page_path
-		else
-			@user = User.new(user_params)	# retain form input for user-friendliness
+		if error_msg
+			# retain form input for user-friendliness
+			@user = User.new(user_params)	
 			flash.now[:alert] = error_msg
 			render 'new'
 		end
@@ -60,11 +60,13 @@ class UsersController < ApplicationController
 
 	def update_password
 		user = current_user
-		error_msg = ""
-		if user.authenticate params[:password]
+		
+		if user.authenticate(params[:password])
 			if params[:new_password] == params[:new_password_confirmation]
 				if user.update_attributes({password: params[:new_password]})
+					flash[:info] = "Your password has been changed"
 					redirect_to user_path
+					return
 				else
 					error_msg = "Unable to update password"
 				end
@@ -72,13 +74,13 @@ class UsersController < ApplicationController
 				error_msg = "You must enter the same new password twice in order to change it"
 			end
 		else
-			error_msg = "Current password was incorrect"
+			error_msg = "Current password entered incorrectly"
 		end
 
-		unless error_msg.empty?
+		if error_msg
 			flash[:alert] = error_msg
 			redirect_to edit_password_path
-		end		
+		end
 	end
 
 	def confirm_delete

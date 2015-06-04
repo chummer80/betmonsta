@@ -59,8 +59,9 @@ private
 		time_node = match_node.css('.header-time').children.first
 		time_str = time_node.text.strip
 
-		# OddsShark shows times in EST time zone
-		# use Rails time zones to build time object
+		# OddsShark shows times in Eastern US time zone.
+		# Use Rails time zones to build time object.
+		# Rails automatically uses the right one between EST or EDT. Yay!
 		Time.use_zone('Eastern Time (US & Canada)') do
 			Time.zone.parse(time_str)
 		end
@@ -70,7 +71,8 @@ private
 		teams_nodelist = match_node.css('.teams a').children
 		{
 			home: teams_nodelist[0].text.strip,
-			away: teams_nodelist[2].text.strip 		# node with index 1 is a <br> tag
+			# The node with index 1 is a <br> tag so ignore it
+			away: teams_nodelist[2].text.strip 
 		}
 	end
 

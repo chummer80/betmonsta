@@ -1,11 +1,13 @@
 require 'OddsSharkScraper'
 
 class BetsController < ApplicationController
+	before_action :authorize, only: [:new]
 
+	# showing the available bets
 	def new
 		@sport = params[:sport]
 
-		# if @sport == "nba" || @sport == "nfl" || @sport == "mlb"
+		# It's possible for user to type in an illegal path. Handle that case here.
 		if %w(nba nfl mlb).include?(@sport)
 			@lines = OddsSharkScraper.get_lines(@sport)
 			
@@ -22,6 +24,8 @@ class BetsController < ApplicationController
 	end
 
 	def create
+		# These params are all strings because they were part of
+		# an HTTP request (form submission)
 		sport = params[:sport]
 		lines = JSON.parse(params[:lines])
 		boxes = params[:boxes]
@@ -31,6 +35,8 @@ class BetsController < ApplicationController
 			if bet_amount > 0
 				boxes.each do |match_index, match_boxes|
 					line = lines[match_index.to_i]
+
+					# keys are either 'home' or 'away' to indicate which side was picked
 					match_boxes.each_key do |home_away| 
 						bet_params = {
 							match_time: line["timestamp"],
@@ -63,6 +69,7 @@ class BetsController < ApplicationController
 			flash[:alert] = error_msg
 		end
 
+		# back to place bets page in case more bets are desired
 		redirect_to new_bets_path(sport)
 	end
 end
