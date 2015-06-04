@@ -3,6 +3,17 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'foundation_and_overrides';
 
+#wager_fieldset {
+	width: 275px;
+	.wager {
+		font-size: 20px;
+
+		.columns {
+			padding: 0;
+		}
+	}
+}
+
 .lines-table {
 	border-bottom: 1px solid black;
 	border-left: 1px solid black;

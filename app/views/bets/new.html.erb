@@ -1,13 +1,27 @@
 <% title "Place Bets: #{@sport.upcase}" %>
 
+<h3>Balance: <%= number_to_currency current_user.balance %></h3>
+
 <% if @lines.empty? %>
 	<h3>There are no available lines</h3>
 <% else %>
 	<%= form_tag(create_bets_path, {method: :post}) do %>
 	
-	<%= hidden_field_tag('lines', @lines) %>
+	<%= hidden_field_tag('lines', @lines.to_json) %>
 	<%= hidden_field_tag('sport', @sport) %>
-	<%= submit_tag "Place Selected Bets" %>
+
+	<fieldset id="wager_fieldset">
+		<div class="wager row">
+			<div class="small-8 columns">
+				<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>
+			</div>
+			<div class="small-4 columns">
+				<%= number_field_tag "bet_amount", 0.00, {min: 0.00, step: 0.10} %>
+			</div>
+		</div>
+
+		<%= submit_tag "Place Selected Bets" %>
+	</fieldset>
 
 	<div class="lines-table">
 		<div class="lines_table_header row">
