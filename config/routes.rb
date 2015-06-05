@@ -18,5 +18,6 @@ Rails.application.routes.draw do
 
   get 'placebets/:sport', to: 'bets#new', as: :new_bets
   post 'placebets/:sport', to: 'bets#create', as: :create_bets
+  get 'bets/pending', to: 'bets#show_pending', as: :pending_bets
 
 end

@@ -3,6 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'foundation_and_overrides';
 
+.highlight {
+	color: red;
+}
+
 #wager_fieldset {
 	width: 275px;
 	.wager {
@@ -14,10 +18,38 @@
 	}
 }
 
-.lines-table {
+%bets-table {
 	border-bottom: 1px solid black;
 	border-left: 1px solid black;
 	font-size: 16px;
+}
+
+%bets-table-col {
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+}
+
+
+.pending-bets-table {
+	@extend %bets-table;
+	
+	@media #{$medium-up} {
+		font-size: 23px;
+	}
+	
+	.row {
+		.columns {
+			@extend %bets-table-col;
+		}
+	}
+
+}
+
+
+.lines-table {
+	@extend %bets-table;
+
+	max-width: 473px;
 
 	@media #{$medium-up} {
 		font-size: 23px;
@@ -32,14 +64,12 @@
 	}
 
 	.row {
-		// border-bottom: 1px solid black;
-		
 		.columns {
-			border-top: 1px solid black;
-			border-right: 1px solid black;
+			@extend %bets-table-col;
 		}
 	}
 
+	// All the flex-box stuff is for centering things
 	.match.row {
 		border-top: 4px solid black;
 		display: flex;

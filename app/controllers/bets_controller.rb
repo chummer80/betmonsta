@@ -69,7 +69,11 @@ class BetsController < ApplicationController
 			flash[:alert] = error_msg
 		end
 
-		# back to place bets page in case more bets are desired
+		# go back to place bets page in case more bets are desired
 		redirect_to new_bets_path(sport)
+	end
+
+	def show_pending
+		@bets = current_user.bets.where(result: nil).order(match_time: :asc)
 	end
 end
