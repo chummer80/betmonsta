@@ -13,7 +13,7 @@ class YahooSportsScraper
 			return false
 		end
 
-		url = "#{@@base_url}/#{league}/scoreboard/?date=2015-06-04" 
+		url = "#{@@base_url}/#{league}/scoreboard" 
 		html = Nokogiri::HTML(open(url))
 		
 
@@ -31,6 +31,8 @@ class YahooSportsScraper
 
 				score[:teams] = get_teams(score_node)
 				score[:final_scores] = get_final_scores(score_node)
+
+				scores << score
 			end
 		end
 
