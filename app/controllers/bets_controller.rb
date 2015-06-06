@@ -1,6 +1,8 @@
 require 'OddsSharkScraper'
 
 class BetsController < ApplicationController
+	include BetsHelper
+	
 	before_action :authorize, only: [:new]
 
 	# showing the available bets
@@ -78,6 +80,8 @@ class BetsController < ApplicationController
 	end
 
 	def show_history
+		resolve_bets(current_user)
+
 		@bets = current_user.bets.where(result: ["W", "L"]).order(match_time: :asc)
 	end
 end

@@ -15,12 +15,12 @@ class YahooSportsScraper
 
 		url = "#{@@base_url}/#{league}/scoreboard" 
 		html = Nokogiri::HTML(open(url))
-		
+
 
 		scores = []
 
 		scores_date_string = html.css('.today').text.strip
-		scores_date = DateTime.strptime(scores_date_string, '%A, %B %d')
+		scores_date = Time.zone.parse(scores_date_string)
 		scores_nodelist = html.css('.game.link')
 
 		scores_nodelist.each do |score_node|
