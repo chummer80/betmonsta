@@ -9,9 +9,9 @@ module BetsHelper
 
 	def win_amount(risk_amount, odds)
 		if odds >= 100
-			multiplier = odds / 100
+			multiplier = odds / 100.0
 		else
-			multiplier = 100 / odds.abs
+			multiplier = 100.0 / odds.abs
 		end
 
 		risk_amount * multiplier
