@@ -76,4 +76,8 @@ class BetsController < ApplicationController
 	def show_pending
 		@bets = current_user.bets.where(result: nil).order(match_time: :asc)
 	end
+
+	def show_history
+		@bets = current_user.bets.where(result: ["W", "L"]).order(match_time: :asc)
+	end
 end

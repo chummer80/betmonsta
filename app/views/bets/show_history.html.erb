@@ -1,0 +1,40 @@
+<% title "Bet History" %>
+
+<%= render 'account_balance' %>
+
+<% if @bets.empty? %>
+	<h3>There are no pending bets</h3>
+<% else %>
+	<div class="pending-bets-table">
+		<div class="pending-bets-table-header row">
+			<div class="small-3 columns">Date/Time</div>
+			<div class="small-1 columns">Sport</div>
+			<div class="small-4 columns">Teams</div>
+			<div class="small-2 columns">Risk</div>
+			<div class="small-2 columns">To Win</div>
+		</div>
+
+		<% @bets.each do |bet| %>
+		<div class="row">
+			<div class="small-3 columns">
+				<%= Time.zone.at(bet.match_time).to_formatted_s(:short_12h) %>
+			</div>
+			<div class="small-1 columns">
+				<%= bet.sport %>
+			</div>
+			<div class="small-4 columns">
+				<span<%= bet.home_picked ? "" : " class=highlight" %>><%= bet.away_team %></span>
+				at
+				<span<%= bet.home_picked ? " class=highlight" : "" %>><%= bet.home_team %></span>
+			</div>
+			<div class="small-2 columns<%= bet.result == "L" ? " highlight" : "" %>">
+				<%= number_to_currency(bet.risk_amount) %>
+			</div>
+			<div class="small-2 columns<%= bet.result == "W" ? " highlight" : "" %>">
+				<%= number_to_currency(win_amount(bet.risk_amount, bet.odds)) %>
+			</div>
+			
+		</div>
+		<% end %>
+	</div>
+<% end %>
