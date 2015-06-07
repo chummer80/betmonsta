@@ -67,9 +67,14 @@ class BetsController < ApplicationController
 							if new_bet.valid?
 								current_user.bets.push(new_bet)
 								placed_bet_count += 1
-								flash[:info] = "#{placed_bet_count} bets have been placed!"
+
+								if placed_bet_count == 1
+									flash[:info] = "#{placed_bet_count} bet has been placed!"
+								else
+									flash[:info] = "#{placed_bet_count} bets have been placed!"
+								end
 							else
-								error_msg = "Some of your bets could not be placed"
+								flash[:alert] = "Some of your bets could not be placed"
 							end
 						end
 					end
@@ -80,17 +85,13 @@ class BetsController < ApplicationController
 						current_user.update_attributes(balance: current_user.balance - (placed_bet_count * bet_amount))
 					end
 				else
-					error_msg = "You tried to wager #{ActionController::Base.helpers.number_to_currency(total_risk)} but you don't have enough money!"
+					flash[:alert] = "You tried to wager #{ActionController::Base.helpers.number_to_currency(total_risk)} but you don't have enough money!"
 				end
 			else
-				error_msg = "You must wager some money"
+				flash[:alert] = "You must wager some money"
 			end
 		else
-			error_msg = "You must select at least one bet"
-		end
-
-		if error_msg
-			flash[:alert] = error_msg
+			flash[:alert] = "You must select at least one bet"
 		end
 
 		# go back to place bets page in case more bets are desired
