@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 			error_msg = "Passwords didn't match"
 		else
 			# set some default values for user stats
-			user_params[:balance] = 0.0
+			user_params[:balance] = 10.0
 			user_params[:max_balance] = 0.0
 			user_params[:ten_day_profit] = 0.0
 			user_params[:thirty_day_profit] = 0.0
