@@ -26,43 +26,39 @@ module BetsHelper
 			scores = YahooSportsScraper.get_scores(sport)
 			open_bets = user.bets.where(result: nil, sport: sport).order(match_time: :asc)
 
-			if !scores.empty? && !open_bets.empty?
-				open_bets.each do |bet|
-					match_time = bet.match_time
-					home_team = bet.home_team
+			# no point checking for matching bets if 1 of the lists is empty
+			next if (scores.empty? || open_bets.empty?) 
+				
+			scores.each do |score|
+				score_month = score[:timestamp].strftime('%B')
+				score_day = score[:timestamp].strftime('%d')
+				score_home_team = score[:teams][:home]
 
-					# find the entry in the scores list that corresponds
-					# to the sports match that was bet on
-					scores.each do |score|
-						score_month = score[:timestamp].strftime('%B')
-						bet_month = bet.match_time.strftime('%B')
+				matching_bets = open_bets.where(
+					home_team: score_home_team, 
+					match_time: (Time.now.midnight - 1.day)..Time.now.midnight
+				)
 
-						score_day = score[:timestamp].strftime('%d')
-						bet_day = bet.match_time.strftime('%d')
+				matching_bets.each do |bet|
+					home_team_won = score[:final_scores][:home] > score[:final_scores][:away]
+					
+					bet_attributes = {}
+					# if these are both true or both false, the bet won
+					if home_team_won == bet.home_picked
+						bet_attributes[:result] = "W"
 
-						if score_month == bet_month && 
-							score_day == bet_day &&
-							score[:teams][:home] == bet.home_team
-
-							home_team_won = score[:final_scores][:home] > score[:final_scores][:away]
-							
-							bet_attributes = {}
-							# if these are both true or both false, the bet won
-							if home_team_won == bet.home_picked
-								bet_attributes[:result] = "W"
-
-								user_attributes = {}
-								user_attributes[:balance] = user.balance + win_amount(bet.risk_amount, bet.odds)
-								user_attributes[:max_balance] = [user.max_balance, user.balance].max
-								user.update_attributes(user_attributes)
-							end
-
-							bet_attributes[:result_time] = Time.zone.now
-							bet_attributes[:resulting_balance] = user.balance
-
-							bet.update_attributes(bet_attributes)
-						end
+						user_attributes = {}
+						user_attributes[:balance] = user.balance + win_amount(bet.risk_amount, bet.odds)
+						user_attributes[:max_balance] = [user.max_balance, user.balance].max
+						user.update_attributes(user_attributes)
+					else
+						bet_attributes[:result] = "L"
 					end
+
+					bet_attributes[:result_time] = Time.zone.now
+					bet_attributes[:resulting_balance] = user.balance
+
+					bet.update_attributes(bet_attributes)
 				end
 			end
 		end
