@@ -76,6 +76,8 @@ class BetsController < ApplicationController
 	end
 
 	def show_pending
+		resolve_bets(current_user)
+		
 		@bets = current_user.bets.where(result: nil).order(match_time: :asc)
 	end
 
