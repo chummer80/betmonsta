@@ -31,12 +31,5 @@ function forceCurrency(event) {
 	}
 }
 
-function initNumberField() {
-	var numberField = document.querySelector('#bet_amount');
-	forceCurrency.call(numberField);
-}
 
 $('#bet_amount').change(forceCurrency);
-
-$(document).ready(initNumberField);
-$(document).on('page:load', initNumberField);	
