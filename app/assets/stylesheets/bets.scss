@@ -49,8 +49,6 @@
 .lines-table {
 	@extend %bets-table;
 
-	max-width: 473px;
-
 	@media #{$medium-up} {
 		font-size: 23px;
 	}
