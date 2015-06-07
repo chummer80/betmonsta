@@ -19,12 +19,19 @@ module BetsHelper
 		risk_amount * multiplier
 	end
 
-	def resolve_bets(user)
+	def resolve_bets(user = nil)
+		# if user is not specified, then resolve all users' bets
+		resolving_all_users = !user
+
 		# %w(nba nfl mlb).each do |sport|
 		# nfl isn't tested, so remove it temporarily
 		%w(nba mlb).each do |sport|
+			if resolving_all_users
+				open_bets = Bet.where(result: nil, sport: sport).order(match_time: :asc)
+			else
+				open_bets = user.bets.where(result: nil, sport: sport).order(match_time: :asc)
+			end
 			scores = YahooSportsScraper.get_scores(sport)
-			open_bets = user.bets.where(result: nil, sport: sport).order(match_time: :asc)
 
 			# no point checking for matching bets if 1 of the lists is empty
 			next if (scores.empty? || open_bets.empty?) 
@@ -40,6 +47,7 @@ module BetsHelper
 				)
 
 				matching_bets.each do |bet|
+					bet_owner = resolving_all_users ? bet.user : user
 					home_team_won = score[:final_scores][:home] > score[:final_scores][:away]
 					
 					bet_attributes = {}
@@ -48,15 +56,15 @@ module BetsHelper
 						bet_attributes[:result] = "W"
 
 						user_attributes = {}
-						user_attributes[:balance] = user.balance + win_amount(bet.risk_amount, bet.odds)
-						user_attributes[:max_balance] = [user.max_balance, user.balance].max
-						user.update_attributes(user_attributes)
+						user_attributes[:balance] = bet_owner.balance + win_amount(bet.risk_amount, bet.odds)
+						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
+						bet_owner.update_attributes(user_attributes)
 					else
 						bet_attributes[:result] = "L"
 					end
 
 					bet_attributes[:result_time] = Time.zone.now
-					bet_attributes[:resulting_balance] = user.balance
+					bet_attributes[:resulting_balance] = bet_owner.balance
 
 					bet.update_attributes(bet_attributes)
 				end
