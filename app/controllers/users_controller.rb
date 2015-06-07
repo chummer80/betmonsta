@@ -88,6 +88,8 @@ class UsersController < ApplicationController
 
 	def destroy
 		user = current_user
+
+		user.bets.delete_all
 		log_out
 		user.destroy
 		redirect_to landing_page_path
