@@ -22,6 +22,7 @@ module BetsHelper
 	def self.resolve_bets(user = nil)
 		# if user is not specified, then resolve all users' bets
 		resolving_all_users = !user
+		resolved_bet_count = 0
 
 		# %w(nba nfl mlb).each do |sport|
 		# nfl isn't tested, so remove it temporarily
@@ -67,9 +68,13 @@ module BetsHelper
 					bet_attributes[:resulting_balance] = bet_owner.balance
 
 					bet.update_attributes(bet_attributes)
+
+					resolved_bet_count += 1
 				end
 			end
 		end
+
+		puts "Done Resolving Bets: #{resolved_bet_count}"
 		return
 	end
 end
