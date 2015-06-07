@@ -1,14 +1,14 @@
 class User < ActiveRecord::Base
 	attr_accessor :remember_token
 	has_secure_password
-  has_many :bets
+	has_many :bets
 
 	validates :username, presence: true, uniqueness: { case_sensitive: false }
-  validates :password, presence: true
-  validates :balance, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :max_balance, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :ten_day_profit, presence: true, numericality: true
-  validates :thirty_day_profit, presence: true, numericality: true
+	validates :password_digest, presence: true
+	validates :balance, presence: true, numericality: {greater_than_or_equal_to: 0}
+	validates :max_balance, presence: true, numericality: {greater_than_or_equal_to: 0}
+	validates :ten_day_profit, presence: true, numericality: true
+	validates :thirty_day_profit, presence: true, numericality: true
 	validates :total_profit, presence: true, numericality: true
 
 
@@ -20,8 +20,8 @@ class User < ActiveRecord::Base
 
   # Use this to give user a different remember token every time they log in
 	def self.new_token
-    SecureRandom.urlsafe_base64
-  end
+		SecureRandom.urlsafe_base64
+	end
 
 	# Remembers a user in the database for use in persistent sessions.
 	def remember
@@ -31,12 +31,12 @@ class User < ActiveRecord::Base
 
 	# Forgets a user.
 	def forget
-  	update_attribute(:remember_digest, nil)
+  		update_attribute(:remember_digest, nil)
 	end
 
 	# Returns true if the given token matches the digest.
 	def authenticated?(remember_token)
 		return false if remember_digest.nil?
-  	BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  		BCrypt::Password.new(remember_digest).is_password?(remember_token)
 	end
 end
