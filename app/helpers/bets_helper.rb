@@ -19,7 +19,7 @@ module BetsHelper
 		risk_amount * multiplier
 	end
 
-	def resolve_bets(user = nil)
+	def self.resolve_bets(user = nil)
 		# if user is not specified, then resolve all users' bets
 		resolving_all_users = !user
 
@@ -70,5 +70,6 @@ module BetsHelper
 				end
 			end
 		end
+		return
 	end
 end
