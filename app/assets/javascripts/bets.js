@@ -2,9 +2,9 @@
 // All this logic will automatically be available in application.js.
 
 // force number field to contain string that is formatted as a valid currency amount
-function forceCurrency() {
+function forceCurrency(event) {
 	// remove disallowed chars
-	this.value.replace(/[^0-9\.]/, "");
+	this.value = this.value.replace(/[^0-9\.]/g, "");
 
 	// if only showing a dollar amount, add decimal points to show cents
 	var indexOfDecimal = this.value.indexOf(".");
@@ -32,11 +32,11 @@ function forceCurrency() {
 }
 
 function initNumberField() {
-	var numberField = document.querySelector('input[type="number"]');
+	var numberField = document.querySelector('#bet_amount');
 	forceCurrency.call(numberField);
 }
 
-$('input[type="number"]').change(forceCurrency);
+$('#bet_amount').change(forceCurrency);
 
 $(document).ready(initNumberField);
 $(document).on('page:load', initNumberField);	
