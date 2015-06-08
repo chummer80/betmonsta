@@ -3,7 +3,7 @@ require 'OddsSharkScraper'
 class BetsController < ApplicationController
 	include BetsHelper
 	
-	before_action :authorize, only: [:new]
+	before_action :authorize
 
 	# showing the available bets
 	def new

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-	before_action :authorize, only: [:dashboard, :show, :edit_password, :confirm_delete]
-	before_action :unauthorize, only: [:new]
+	before_action :authorize, only: [:index, :dashboard, :show, :edit_password, :update_password, :confirm_delete, :destroy]
+	before_action :unauthorize, only: [:new, :create]
 	
 	def index
 		redirect_to landing_page_path

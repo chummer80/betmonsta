@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-	before_action :unauthorize, only: [:new]
+	before_action :unauthorize, only: [:new, :create]
+	before_action :authorize, only: [:destroy]
 	
 	def new
 		@user = User.new
