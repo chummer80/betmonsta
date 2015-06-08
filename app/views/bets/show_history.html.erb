@@ -15,7 +15,7 @@
 		</div>
 
 		<% @bets.each do |bet| %>
-			<div class="row">
+			<div class="match row">
 				<div class="small-3 columns">
 					<%= Time.zone.at(bet.match_time).to_formatted_s(:short_12h) %>
 				</div>

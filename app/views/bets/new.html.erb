@@ -10,7 +10,7 @@
 	<%= hidden_field_tag('lines', @lines.to_json) %>
 	<%= hidden_field_tag('sport', @sport) %>
 
-	<fieldset id="wager_fieldset" class="centered-block">
+	<fieldset id="wager_fieldset" class="centered-block centered-text">
 		<div class="wager row">
 			<div class="small-8 columns">
 				<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>
@@ -25,10 +25,10 @@
 
 	<div class="lines-table">
 		<div class="lines_table_header row">
-			<div class="small-3 columns">Date/Time</div>
+			<div class="small-3 columns left-content">Date/Time</div>
 			<div class="small-9 columns">
 				<div class="row">
-					<div class="small-7 columns">Team</div>
+					<div class="small-7 columns left-content">Team</div>
 					<div class="small-3 columns centered-col"><%= @bet_type == :spread ? "Spread" : "Moneyline" %></div>
 					<div class="small-2 columns centered-col">Bet</div>
 				</div>
@@ -39,12 +39,12 @@
 		<% @lines.each_index do |i| %>
 			<% line = @lines[i] %>
 			<div class="match row">
-				<div class="small-3 columns date-time">
+				<div class="small-3 columns date-time left-content">
 					<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
 				</div>
 				<div class="small-9 columns">
 					<div class="home-team row">
-						<div class="small-7 columns">
+						<div class="small-7 columns left-content">
 							<%= line[:teams][:home] + " at" %>
 						</div>
 						<div class="small-3 columns centered-col">
@@ -60,7 +60,7 @@
 					</div>
 
 					<div class="away-team row">
-						<div class="small-7 columns">
+						<div class="small-7 columns left-content">
 							<%= line[:teams][:away] %>
 						</div>
 						<div class="small-3 columns centered-col">

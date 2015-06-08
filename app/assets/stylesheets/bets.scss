@@ -1,10 +1,11 @@
 // Place all the styles related to the bets controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'util';
 @import 'foundation_and_overrides';
 
 .highlight {
-	color: red;
+	color: $bright-accent-color;
 }
 
 #wager_fieldset {
@@ -18,15 +19,53 @@
 	}
 }
 
+%bets-table-cell {
+	border-top: 1px $dark-main-color solid;
+	border-right: 1px $dark-main-color solid;
+}
+
 %bets-table {
-	border-bottom: 1px solid black;
-	border-left: 1px solid black;
+	* {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	.left-content {
+		padding-left: 5px !important;
+	}
+
+	.columns { 
+		@extend %bets-table-cell;
+	}
+
+	> .row {
+		border-left: 1px $dark-main-color solid;
+	}
+
+	> .row:last-child {
+		border-bottom: 1px $dark-main-color solid;
+	}
+
+	// border-bottom: 1px solid $dark-main-color;
+	// border-left: 1px solid $dark-main-color;
 	font-size: 16px;
+
+	.match.row:nth-child(even) {
+		background-color: $very-light-main-color;
+	}
+	.match.row:nth-child(odd) {
+		background-color: $light-main-color;
+	}
+
+}
+
+%bets_table_header_row {
+	background-color: $accent-color;
 }
 
 %bets-table-col {
-	border-top: 1px solid black;
-	border-right: 1px solid black;
+	// border-top: 1px solid $dark-main-color;
+	// border-right: 1px solid $dark-main-color;
 }
 
 
@@ -37,9 +76,13 @@
 		font-size: 23px;
 	}
 	
+	.pending-bets-table-header {
+		@extend %bets_table_header_row;
+	}
+
 	.row {
 		.columns {
-			@extend %bets-table-col;
+			@extend %bets-table-col !optional;
 		}
 	}
 
@@ -53,29 +96,38 @@
 		font-size: 23px;
 	}
 
+
 	.centered-col {
 		text-align: center;
 	}
 
 	.lines_table_header.row {
-		border-bottom: 10px solid black;
+		@extend %bets_table_header_row;
+		// border-bottom: 10px solid $dark-main-color;
 	}
 
 	.row {
 		.columns {
-			@extend %bets-table-col;
+			@extend %bets-table-col !optional;
 		}
 	}
 
 	// All the flex-box stuff is for centering things
 	.match.row {
-		border-top: 4px solid black;
+		// border-top: 4px solid $dark-main-color;
 		display: flex;
 		align-items: stretch;
 
 		.date-time {
 			display: flex;
 			align-items: center;
+		}
+
+		.home-team.row {
+			background-color: $very-light-main-color;
+		}
+		.away-team.row {
+			background-color: $light-main-color;
 		}
 
 		.home-team.row, .away-team.row {

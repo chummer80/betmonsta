@@ -1,3 +1,15 @@
+$main-hue: 140;
+$main-color: hsl($main-hue, 45%, 50%);	/* emerald green */
+$dark-main-color: darken($main-color, 30%);
+$very-dark-main-color: darken($main-color, 35%);
+$light-main-color: lighten($main-color, 20%);
+$very-light-main-color: lighten($main-color, 40%);
+
+$accent-color: #FFAA34;	/* orange */
+$bright-accent-color: saturate($accent-color, 100%);
+$dark-accent-color: darken($accent-color, 20%);
+$light-accent-color: lighten($accent-color, 20%);
+
 @mixin vertical-align {
     position: relative;
     top: 50%;
@@ -5,6 +17,7 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
 
 @mixin triangle($size, $color, $direction: 'up') {
 	width: 0;
