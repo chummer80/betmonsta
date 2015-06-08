@@ -6,7 +6,13 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "BetMonsta" %></title>
 
-    <%= stylesheet_link_tag    "application" %>
+    <%= favicon_link_tag %>
+    <%= favicon_link_tag "favicon-16x16.png", type: "image/png" %>
+    <%= favicon_link_tag "favicon-32x32.png", type: "image/png" %>
+    <%= favicon_link_tag "favicon-96x96.png", type: "image/png" %>
+    
+    <%= stylesheet_link_tag "application" %>
+    <%# <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Bowlby+One+SC|Bowlby+One" %>
     <%= javascript_include_tag "vendor/modernizr", defer: true %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true, defer: true %>
     <%= csrf_meta_tags %>
