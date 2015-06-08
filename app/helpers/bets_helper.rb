@@ -27,7 +27,6 @@ module BetsHelper
 		# %w(nba nfl mlb).each do |sport|
 		# nfl isn't tested, so remove it temporarily
 		%w(nba mlb).each do |sport|
-			binding.pry
 			if resolving_all_users
 				open_bets = Bet.where(result: nil, sport: sport).order(match_time: :asc)
 			else
