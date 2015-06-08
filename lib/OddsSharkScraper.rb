@@ -29,10 +29,11 @@ class OddsSharkScraper
 		matches_nodelist.each do |match_node|
 			match = {}
 			
-			# match[:type] = type
+			# get date/time of match and see if it has started already. if so, don't include it in the list
+			match_time = get_date_time(match_node)
+			next if Time.zone.now >= match_time
 
-			# get date/time
-			match[:timestamp] = get_date_time(match_node)
+			match[:timestamp] = match_time
 
 			# get teams
 			match[:teams] = get_teams(match_node)
