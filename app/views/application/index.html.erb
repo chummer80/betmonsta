@@ -1,3 +1,9 @@
 <% title "Welcome!" %>
 
-<%= image_tag("betmonsta_icon.png", {class: "centered-block"}) %>
+<%= image_tag("monster_purple.png", class: "centered-block", id: "monster-pic") %>
+
+<h1 class="centered-text">Are you ready to become a<br>BetMonsta?</h1>
+
+<% if !logged_in? %>
+	<div class="button centered-block" id="sign-up-button">Sign Up Now!</div>
+<% end %>

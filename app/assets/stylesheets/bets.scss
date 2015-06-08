@@ -9,6 +9,7 @@
 }
 
 #wager_fieldset {
+	background-color: $light-main-color;
 	width: 275px;
 	.wager {
 		font-size: 20px;
@@ -46,8 +47,6 @@
 		border-bottom: 1px $dark-main-color solid;
 	}
 
-	// border-bottom: 1px solid $dark-main-color;
-	// border-left: 1px solid $dark-main-color;
 	font-size: 16px;
 
 	.match.row:nth-child(even) {
@@ -64,8 +63,6 @@
 }
 
 %bets-table-col {
-	// border-top: 1px solid $dark-main-color;
-	// border-right: 1px solid $dark-main-color;
 }
 
 
@@ -103,7 +100,6 @@
 
 	.lines_table_header.row {
 		@extend %bets_table_header_row;
-		// border-bottom: 10px solid $dark-main-color;
 	}
 
 	.row {
@@ -114,7 +110,6 @@
 
 	// All the flex-box stuff is for centering things
 	.match.row {
-		// border-top: 4px solid $dark-main-color;
 		display: flex;
 		align-items: stretch;
 

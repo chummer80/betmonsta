@@ -20,9 +20,14 @@
 @import 'foundation_and_overrides';
 
 
+/* general styles */
 
 * {
 	box-sizing: border-box;
+}
+
+body {
+	background-image: url("white_bg.jpg");
 }
 
 h1 {
@@ -102,4 +107,17 @@ input[type="submit"] {
 
 .alert-box {
 	@extend .centered-text;
+}
+
+
+
+/* styles for welcome page */
+#monster-pic {
+	height: 400px;
+}
+
+#sign-up-button {
+	width: 350px;
+	font-family: "Bowlby One SC";
+	font-size: 40px;
 }
