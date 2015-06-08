@@ -31,7 +31,7 @@
 				<%= number_to_currency(bet.risk_amount) %>
 			</div>
 			<div class="small-2 columns">
-				<%= number_to_currency(win_amount(bet.risk_amount, bet.odds)) %>
+				<%= number_to_currency(BetsHelper.win_amount(bet.risk_amount, bet.odds)) %>
 			</div>
 			
 		</div>

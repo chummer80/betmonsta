@@ -103,6 +103,8 @@ class BetsController < ApplicationController
 	end
 
 	def show_history
+		BetsHelper.resolve_bets
+
 		@bets = current_user.bets.where(result: ["W", "L"]).order(match_time: :asc)
 	end
 end

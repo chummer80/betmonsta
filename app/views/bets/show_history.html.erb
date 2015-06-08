@@ -3,7 +3,7 @@
 <%= render 'account_balance' %>
 
 <% if @bets.empty? %>
-	<h3>There are no bets to show</h3>
+	<h3 class="centered-text">There are no bets to show</h3>
 <% else %>
 	<div class="pending-bets-table">
 		<div class="pending-bets-table-header row">
@@ -31,7 +31,7 @@
 					<%= number_to_currency(bet.risk_amount) %>
 				</div>
 				<div class="small-2 columns<%= bet.result == "W" ? " highlight" : "" %>">
-					<%= number_to_currency(win_amount(bet.risk_amount, bet.odds)) %>
+					<%= number_to_currency(BetsHelper.win_amount(bet.risk_amount, bet.odds)) %>
 				</div>
 			</div>
 		<% end %>

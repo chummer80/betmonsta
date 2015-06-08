@@ -9,7 +9,7 @@ module BetsHelper
 		end
 	end
 
-	def win_amount(risk_amount, odds)
+	def self.win_amount(risk_amount, odds)
 		if odds >= 100
 			multiplier = odds / 100.0
 		else
@@ -27,6 +27,7 @@ module BetsHelper
 		# %w(nba nfl mlb).each do |sport|
 		# nfl isn't tested, so remove it temporarily
 		%w(nba mlb).each do |sport|
+			binding.pry
 			if resolving_all_users
 				open_bets = Bet.where(result: nil, sport: sport).order(match_time: :asc)
 			else
@@ -38,13 +39,11 @@ module BetsHelper
 			next if (scores.empty? || open_bets.empty?) 
 				
 			scores.each do |score|
-				score_month = score[:timestamp].strftime('%B')
-				score_day = score[:timestamp].strftime('%d')
 				score_home_team = score[:teams][:home]
 
 				matching_bets = open_bets.where(
 					home_team: score_home_team, 
-					match_time: (Time.now.midnight - 1.day)..Time.now.midnight
+					match_time: (Time.now.midnight..(Time.now.midnight + 23.hours + 59.minutes + 59.seconds))
 				)
 
 				matching_bets.each do |bet|
@@ -57,7 +56,7 @@ module BetsHelper
 						bet_attributes[:result] = "W"
 
 						user_attributes = {}
-						user_attributes[:balance] = bet_owner.balance + win_amount(bet.risk_amount, bet.odds)
+						user_attributes[:balance] = bet_owner.balance + BetsHelper.win_amount(bet.risk_amount, bet.odds)
 						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
 						bet_owner.update_attributes(user_attributes)
 					else
