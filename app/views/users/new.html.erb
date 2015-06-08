@@ -1,6 +1,6 @@
 <% title "Sign Up" %>
 
-<%= form_for @user, url: create_user_path, method: 'post' do |f| %>
+<%= form_for @user, url: create_user_path, method: 'post', html: { class: "user-form" } do |f| %>
 	<%= f.label :username %>
 	<%= f.text_field :username %>
 	<br><br>

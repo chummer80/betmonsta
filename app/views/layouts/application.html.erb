@@ -10,7 +10,7 @@
     <%= favicon_link_tag "favicon-16x16.png", type: "image/png" %>
     <%= favicon_link_tag "favicon-32x32.png", type: "image/png" %>
     <%= favicon_link_tag "favicon-96x96.png", type: "image/png" %>
-    
+
     <%= stylesheet_link_tag "application" %>
     <%# <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Bowlby+One+SC|Bowlby+One" %>
     <%= javascript_include_tag "vendor/modernizr", defer: true %>
@@ -27,7 +27,7 @@
 
       <section id="content">
         <% if content_for?(:title) %>
-          <h1><%= yield(:title) %></h1>
+          <h1 id="page_title"><%= yield(:title) %></h1>
         <% end %>
 
         <%= yield %>

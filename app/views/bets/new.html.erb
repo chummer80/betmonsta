@@ -3,14 +3,14 @@
 <%= render 'account_balance' %>
 
 <% if @lines.empty? %>
-	<h3>There are no available lines</h3>
+	<h3 class="centered-text">There are no available lines</h3>
 <% else %>
 	<%= form_tag(create_bets_path, {method: :post}) do %>
 	
 	<%= hidden_field_tag('lines', @lines.to_json) %>
 	<%= hidden_field_tag('sport', @sport) %>
 
-	<fieldset id="wager_fieldset">
+	<fieldset id="wager_fieldset" class="centered-block">
 		<div class="wager row">
 			<div class="small-8 columns">
 				<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>

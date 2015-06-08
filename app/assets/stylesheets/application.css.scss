@@ -61,6 +61,16 @@ header {
 	}
 }
 
+.centered-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.centered-text {
+	text-align: center;
+}
+
 nav.top-bar:not(.expanded) {
 	text-align: center;
 	section.top-bar-section { 
@@ -72,8 +82,21 @@ section#content {
 	max-width: 1000px;
 	padding: 25px;
 	margin: 0 auto;
+
+	#page_title, #balance {
+		@extend .centered-text;
+	}
 }
 
 input[type="submit"] {
 	@include button();
+}
+
+.user-form {
+	@extend .centered-block;
+	max-width: 425px;
+}
+
+.alert-box {
+	@extend .centered-text;
 }
