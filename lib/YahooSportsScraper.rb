@@ -23,15 +23,15 @@ class YahooSportsScraper
 		scores_date = Time.zone.parse(scores_date_string)
 		scores_nodelist = html.css('.game.link')
 
+
 		scores_nodelist.each do |score_node|
 			score = {}
 			
-			if is_final_score?(score_node)
+			if is_final_score?(league, score_node)
 				score[:timestamp] = scores_date
 
-				score[:teams] = get_teams(score_node)
-				score[:final_scores] = get_final_scores(score_node)
-
+				score[:teams] = get_teams(league, score_node)
+				score[:final_scores] = get_final_scores(league, score_node)
 				scores << score
 			end
 		end
@@ -43,6 +43,7 @@ class YahooSportsScraper
 
 private
 
+	# Extract text from text-node children of this node and return it in an array
 	def self.get_text(node)
 		text_array = []
 		children = node.children
@@ -54,7 +55,10 @@ private
 		text_array
 	end
 	
-	def self.get_teams(score_node)
+
+	######## Get teams #######
+
+	def self.get_teams_mlb(score_node)
 		teams = {}
 		teams_nodelist = score_node.css('.team')
 
@@ -67,7 +71,34 @@ private
 		teams
 	end
 
-	def self.get_final_scores(score_node)
+	def self.get_teams_nba(score_node)
+		teams = {
+			home: score_node.css('> .home .team em').first.text,
+			away: score_node.css('> .away .team em').first.text
+		}
+
+		teams
+	end
+
+	def self.get_teams_nfl(score_node)
+	end
+
+	def self.get_teams(league, score_node)
+		case league
+		when "mlb"
+			get_teams_mlb(score_node)
+		when "nba"			
+			get_teams_nba(score_node)
+		when "nfl"			
+			get_teams_nfl(score_node)
+		end
+	end
+
+
+	######## Get scores #######
+
+
+	def self.get_final_scores_mlb(score_node)
 		scores = {}
 		teams_nodelist = score_node.css('.team')
 
@@ -80,12 +111,47 @@ private
 		scores
 	end
 
-	def self.is_final_score?(score_node)
-		game_status_node = score_node.css('.links .meta a').first
+	def self.get_final_scores_nba(score_node)
+		scores = {
+			home: score_node.css('.score .home').first.text,
+			away: score_node.css('.score .away').first.text
+		}
+
+		scores
+	end
+
+	def self.get_final_scores_nfl(score_node)
+	end
+
+	def self.get_final_scores(league, score_node)
+		case league
+		when "mlb"
+			get_final_scores_mlb(score_node)
+		when "nba"			
+			get_final_scores_nba(score_node)
+		when "nfl"
+			get_final_scores_nfl(score_node)
+		end
+	end
+
+
+	######## Get status of a game (is it finished yet?) #######
+
+
+	def self.is_final_score?(league, score_node)
+		case league
+		when "mlb"
+			game_status_node = score_node.css('.links .meta a').first
+		when "nba"
+			game_status_node = score_node.css('.details span').first
+		when "nfl"
+			game_status_node = nil
+		end
+		
 		return unless game_status_node
 		text_array = get_text(game_status_node)
 
-		text_array.include?("Final")
+		text_array.grep(/Final/).size > 0
 	end
 
 	def self.get_date_time(match_node)
