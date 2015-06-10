@@ -23,9 +23,19 @@
 				<%= bet.sport %>
 			</div>
 			<div class="small-4 columns">
-				<span<%= bet.home_picked ? "" : " class=highlight" %>><%= bet.away_team %></span>
+				<span<%= bet.home_picked ? "" : " class=highlight" %>>
+					<%= bet.away_team %>
+					<% if !bet.home_picked && bet.spread != 0 %>
+						<%= "(#{line_to_s(bet.spread)})" %>
+					<% end %>
+				</span>
 				at
-				<span<%= bet.home_picked ? " class=highlight" : "" %>><%= bet.home_team %></span>
+				<span<%= bet.home_picked ? " class=highlight" : "" %>>
+					<%= bet.home_team %>
+					<% if bet.home_picked && bet.spread != 0 %>
+						<%= "(#{line_to_s(bet.spread)})" %>
+					<% end %>
+				</span>
 			</div>
 			<div class="small-2 columns">
 				<%= number_to_currency(bet.risk_amount) %>
