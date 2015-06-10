@@ -1,6 +1,12 @@
 require 'open-uri'
 require 'nokogiri'
 
+def valid_float?(str)
+    # The double negation turns this into an actual boolean true - if you're 
+    # okay with "truthy" values (like 0.0), you can remove it.
+    !!Float(str) rescue false
+end
+
 class OddsSharkScraper
 	@@base_url = "http://www.oddsshark.com"
 
@@ -41,11 +47,11 @@ class OddsSharkScraper
 			# get spread/odds. If lines could not be found, skip to next
 			# loop iteration without adding this match.
 			if type == :spread
-				match[:odds] = {home: -110, away: -110}
+				match[:odds] = {away: -110, home: -110}
 				next unless match[:spread] = get_spreads(match_node)
 			else
 				next unless match[:odds] = get_moneylines(match_node)
-				match[:spread] = {home: 0, away: 0}
+				match[:spread] = {away: 0, home: 0}
 			end
 
 			matches << match
@@ -56,6 +62,8 @@ class OddsSharkScraper
 
 private
 	
+	
+
 	def self.get_date_time(match_node)
 		time_node = match_node.css('.header-time').children.first
 		time_str = time_node.text.strip
@@ -71,9 +79,9 @@ private
 	def self.get_teams(match_node)
 		teams_nodelist = match_node.css('.teams a').children
 		{
-			home: teams_nodelist[0].text.strip,
+			away: teams_nodelist[0].text.strip,
 			# The node with index 1 is a <br> tag so ignore it
-			away: teams_nodelist[2].text.strip 
+			home: teams_nodelist[2].text.strip 
 		}
 	end
 
@@ -81,14 +89,14 @@ private
 		moneylines_nodelist = match_node.css('div.book-opening span.moneyline')
 		
 		moneyline_strings = {
-			home: moneylines_nodelist[0].text.strip,
-			away: moneylines_nodelist[1].text.strip
+			away: moneylines_nodelist[0].text.strip,
+			home: moneylines_nodelist[1].text.strip
 		}
 
-		if is_i?(moneyline_strings[:home]) && is_i?(moneyline_strings[:away])
+		if is_i?(moneyline_strings[:away]) && is_i?(moneyline_strings[:home])
 			{
-				home: moneyline_strings[:home].to_i,
-				away: moneyline_strings[:away].to_i
+				away: moneyline_strings[:away].to_i,
+				home: moneyline_strings[:home].to_i
 			}
 		else
 			false	# this indicates failure to retrieve line
@@ -99,14 +107,14 @@ private
 		spreads_nodelist = match_node.css('div.book-opening span.spread')
 
 		spread_strings = {
-			home: spreads_nodelist[0].text.strip,
-			away: spreads_nodelist[1].text.strip
+			away: spreads_nodelist[0].text.strip,
+			home: spreads_nodelist[1].text.strip
 		}
 
-		if is_i?(spread_strings[:home]) && is_i?(spread_strings[:away])
+		if valid_float?(spread_strings[:away]) && valid_float?(spread_strings[:home])
 			{
-				home: spread_strings[:home].to_i,
-				away: spread_strings[:away].to_i
+				away: spread_strings[:away].to_f,
+				home: spread_strings[:home].to_f
 			}
 		else
 			false	# this indicates failure to retrieve line

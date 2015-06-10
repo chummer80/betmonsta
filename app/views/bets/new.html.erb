@@ -16,7 +16,7 @@
 				<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>
 			</div>
 			<div class="small-4 columns">
-				<%= text_field_tag "bet_amount", "0.00", {pattern: '[0-9]+\.[0-9]{2}'} %>
+				<%= text_field_tag "bet_amount", "0.00", {pattern: '[0-9]+(\.[0-9]{0,2})?'} %>
 			</div>
 		</div>
 
@@ -43,25 +43,10 @@
 					<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
 				</div>
 				<div class="small-9 columns">
-					<div class="home-team row">
-						<div class="small-7 columns left-content">
-							<%= line[:teams][:home] + " at" %>
-						</div>
-						<div class="small-3 columns centered-col">
-							<%= line_to_s(line[show_line][:home]) %>
-						</div>
-						<div class="small-2 columns bet-input-cell">
-							<% switch_name = "boxes[#{i}][home]" %>
-							<div class="tiny switch">
-								<%= check_box_tag(switch_name) %>
-								<%= label_tag(switch_name) %>
-							</div> 
-						</div>
-					</div>
 
 					<div class="away-team row">
 						<div class="small-7 columns left-content">
-							<%= line[:teams][:away] %>
+							<%= line[:teams][:away] + " at" %>
 						</div>
 						<div class="small-3 columns centered-col">
 							<%= line_to_s(line[show_line][:away]) %>
@@ -72,6 +57,22 @@
 								<%= check_box_tag(switch_name) %>
 								<%= label_tag(switch_name) %>
 							</div>
+						</div>
+					</div>
+
+					<div class="home-team row">
+						<div class="small-7 columns left-content">
+							<%= line[:teams][:home] %>
+						</div>
+						<div class="small-3 columns centered-col">
+							<%= line_to_s(line[show_line][:home]) %>
+						</div>
+						<div class="small-2 columns bet-input-cell">
+							<% switch_name = "boxes[#{i}][home]" %>
+							<div class="tiny switch">
+								<%= check_box_tag(switch_name) %>
+								<%= label_tag(switch_name) %>
+							</div> 
 						</div>
 					</div>
 				</div>

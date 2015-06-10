@@ -6,7 +6,7 @@ class Bet < ActiveRecord::Base
   validates :home_team, presence: true
   validates :away_team, presence: true
   validates :home_picked, inclusion: { in: [true, false] } 
-  validates :spread, presence: true, numericality: { only_integer: true }
+  validates :spread, presence: true, numericality: true
   validates :odds, presence: true, numericality: { only_integer: true }
   validates :risk_amount, presence: true, numericality: {greater_than: 0}
 end
