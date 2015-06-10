@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603040535) do
+ActiveRecord::Schema.define(version: 20150610080249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150603040535) do
     t.string   "home_team"
     t.string   "away_team"
     t.boolean  "home_picked"
-    t.integer  "spread"
+    t.float    "spread"
     t.integer  "odds"
     t.float    "risk_amount"
     t.datetime "result_time"
