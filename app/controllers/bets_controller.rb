@@ -10,12 +10,13 @@ class BetsController < ApplicationController
 		@sport = params[:sport]
 
 		# It's possible for user to type in an illegal path. Handle that case here.
-		if %w(nba nfl mlb).include?(@sport)
+		if %w(nba nfl mlb nhl).include?(@sport)
 			@lines = OddsSharkScraper.get_lines(@sport)
 			
-			if @sport == "mlb"
+			case @sport 
+			when "mlb", "nhl"
 				@bet_type = :moneyline
-			else
+			when "nba", "nfl"
 				@bet_type = :spread
 			end
 		else

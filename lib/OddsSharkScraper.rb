@@ -16,7 +16,7 @@ class OddsSharkScraper
 		# by default choose spreads for NBA/NFL, and moneyline for MLB
 		if type == :none
 			case league
-			when "mlb"
+			when "mlb", "nhl"
 				type = :moneyline
 			when "nba", "nfl"
 				type = :spread

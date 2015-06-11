@@ -24,9 +24,7 @@ module BetsHelper
 		resolving_all_users = !user
 		resolved_bet_count = 0
 
-		# %w(nba nfl mlb).each do |sport|
-		# nfl isn't tested, so remove it temporarily
-		%w(nba mlb).each do |sport|
+		%w(nba nfl mlb nhl).each do |sport|
 			if resolving_all_users
 				open_bets = Bet.where(result: nil, sport: sport).order(match_time: :asc)
 			else
@@ -34,7 +32,7 @@ module BetsHelper
 			end
 			scores = YahooSportsScraper.get_scores(sport)
 
-			# no point checking for matching bets if 1 of the lists is empty
+			# no point checking for matching bets if either one of the lists is empty
 			next if (scores.empty? || open_bets.empty?) 
 				
 			scores.each do |score|

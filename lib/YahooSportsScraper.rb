@@ -8,7 +8,7 @@ class YahooSportsScraper
 		league.downcase!
 
 
-		unless %w(nba nfl mlb).include?(league)
+		unless %w(nba nfl mlb nhl).include?(league)
 			puts "invalid league #{league}"
 			return false
 		end
@@ -71,7 +71,7 @@ private
 		teams
 	end
 
-	def self.get_teams_nba(score_node)
+	def self.get_teams_nba_nhl(score_node)
 		teams = {
 			home: score_node.css('> .home .team em').first.text,
 			away: score_node.css('> .away .team em').first.text
@@ -87,8 +87,8 @@ private
 		case league
 		when "mlb"
 			get_teams_mlb(score_node)
-		when "nba"			
-			get_teams_nba(score_node)
+		when "nba", "nhl"		
+			get_teams_nba_nhl(score_node)
 		when "nfl"			
 			get_teams_nfl(score_node)
 		end
@@ -111,7 +111,7 @@ private
 		scores
 	end
 
-	def self.get_final_scores_nba(score_node)
+	def self.get_final_scores_nba_nhl(score_node)
 		scores = {
 			home: score_node.css('.score .home').first.text,
 			away: score_node.css('.score .away').first.text
@@ -127,8 +127,8 @@ private
 		case league
 		when "mlb"
 			get_final_scores_mlb(score_node)
-		when "nba"			
-			get_final_scores_nba(score_node)
+		when "nba", "nhl"		
+			get_final_scores_nba_nhl(score_node)
 		when "nfl"
 			get_final_scores_nfl(score_node)
 		end
@@ -142,7 +142,7 @@ private
 		case league
 		when "mlb"
 			game_status_node = score_node.css('.links .meta a').first
-		when "nba"
+		when "nba", "nhl"
 			game_status_node = score_node.css('.details span').first
 		when "nfl"
 			game_status_node = nil
