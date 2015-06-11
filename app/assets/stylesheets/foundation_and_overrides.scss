@@ -451,7 +451,7 @@ $alert-bottom-margin: 0; //rem-calc(20);
 
 // We use these to control button text styles.
 // $button-font-family: $body-font-family;
-// $button-font-color: $white;
+$button-font-color: $dark-main-color;
 // $button-font-color-alt: $oil;
 // $button-font-tny: rem-calc(11);
 // $button-font-sml: rem-calc(13);
@@ -565,7 +565,7 @@ $alert-bottom-margin: 0; //rem-calc(20);
 // We use these to control styles for the list elements.
 // $f-dropdown-list-style: none;
 // $f-dropdown-font-color: $charcoal;
-// $f-dropdown-font-size: rem-calc(14);
+$f-dropdown-font-size: rem-calc(18);
 // $f-dropdown-list-padding: rem-calc(5, 10);
 // $f-dropdown-line-height: rem-calc(18);
 // $f-dropdown-list-hover-bg: $smoke;
@@ -1419,7 +1419,7 @@ $topbar-bg-color: $dark-main-color;//$oil;
 // $topbar-link-color-active: $white;
 // $topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
-// $topbar-link-font-size: rem-calc(13);
+$topbar-link-font-size: rem-calc(17);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 // $topbar-link-bg: $topbar-bg;
 $topbar-link-bg-hover: $very-dark-main-color;//$jet;

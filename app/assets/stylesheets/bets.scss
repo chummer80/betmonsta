@@ -15,6 +15,14 @@
 	.wager {
 		font-size: 20px;
 
+		label {
+			color: $white;
+		}
+
+		input#bet_amount {
+			padding-left: 1px;
+		}
+
 		.columns {
 			padding: 0;
 		}
