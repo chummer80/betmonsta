@@ -1,9 +1,13 @@
 <% title "Welcome!" %>
 
+<h1 class="centered-text">So you think you know a lot about sports...</h1>
+
 <%= image_tag("monster_purple.png", class: "centered-block", id: "monster-pic") %>
 
-<h1 class="centered-text">Are you ready to become a<br>BetMonsta?</h1>
+<h1 class="centered-text">You wanna bet?</h1>
 
 <% if !logged_in? %>
-	<div class="button centered-block" id="sign-up-button">Sign Up Now!</div>
+	<%= link_to new_user_path do %>
+		<div class="button centered-block" id="sign-up-button">Sign Up Now!</div>
+	<% end %>
 <% end %>
