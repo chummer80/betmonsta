@@ -40,7 +40,7 @@ module BetsHelper
 
 				matching_bets = open_bets.where(
 					home_team: score_home_team, 
-					match_time: (Time.now.midnight..(Time.now.midnight + 23.hours + 59.minutes + 59.seconds))
+					match_time: (Time.zone.now.midnight..(Time.zone.now.midnight + 23.hours + 59.minutes + 59.seconds))
 				)
 				matching_bets.each do |bet|
 					bet_owner = resolving_all_users ? bet.user : user
