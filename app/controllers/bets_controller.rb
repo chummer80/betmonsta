@@ -104,6 +104,6 @@ class BetsController < ApplicationController
 	end
 
 	def show_history
-		@bets = current_user.bets.where(result: ["W", "L"]).order(match_time: :asc)
+		@bets = current_user.bets.where(result: %w(W L P)).order(match_time: :asc)
 	end
 end

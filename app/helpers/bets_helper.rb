@@ -42,18 +42,37 @@ module BetsHelper
 					home_team: score_home_team, 
 					match_time: (Time.now.midnight..(Time.now.midnight + 23.hours + 59.minutes + 59.seconds))
 				)
-
 				matching_bets.each do |bet|
 					bet_owner = resolving_all_users ? bet.user : user
-					home_team_won = score[:final_scores][:home] > score[:final_scores][:away]
+
+					# convert scores to numbers so they can be modified and compared properly
+					home_team_score = score[:final_scores][:home].to_f
+					away_team_score = score[:final_scores][:away].to_f
+
+					# add spread to the team that was bet on
+					if bet.home_picked
+						home_team_score += bet.spread
+					else
+						away_team_score += bet.spread
+					end
+
+					home_team_beat_spread = home_team_score > away_team_score
 					
 					bet_attributes = {}
+					
 					# if these are both true or both false, the bet won
-					if home_team_won == bet.home_picked
-						bet_attributes[:result] = "W"
-
+					if home_team_score == away_team_score
+						bet_attributes[:result] = "P"
 						user_attributes = {}
-						user_attributes[:balance] = bet_owner.balance + BetsHelper.win_amount(bet.risk_amount, bet.odds)
+						# get back risk amount in the case of a push
+						user_attributes[:balance] = bet_owner.balance + bet.risk_amount
+						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
+						bet_owner.update_attributes(user_attributes)
+					elsif home_team_beat_spread == bet.home_picked
+						bet_attributes[:result] = "W"
+						user_attributes = {}
+						# get back risk amount in addition to win amount
+						user_attributes[:balance] = bet_owner.balance + bet.risk_amount + BetsHelper.win_amount(bet.risk_amount, bet.odds)
 						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
 						bet_owner.update_attributes(user_attributes)
 					else
