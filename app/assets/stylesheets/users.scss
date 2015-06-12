@@ -1,3 +1,38 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'util';
+@import 'foundation_and_overrides';
+
+.leaderboard-container {
+	max-width: 500px;
+	font-size: 16px;
+	@media #{$medium-up} {
+		font-size: 23px;
+	}
+
+	border-bottom: 1px $dark-main-color solid;
+	border-left: 1px $dark-main-color solid;
+
+	.leaderboard-header {
+		background-color: $accent-color;
+		color: $dark-main-color;
+		text-align: center;
+	}
+
+	.leaderboard-row:nth-child(even) {
+		background-color: $very-light-main-color;
+	}
+	.leaderboard-row:nth-child(odd) {
+		background-color: $light-main-color;
+	}
+
+	.columns {
+		border-top: 1px $dark-main-color solid;
+		border-right: 1px $dark-main-color solid;
+	}
+
+	.rank, .money {
+		text-align: center;
+	}
+}

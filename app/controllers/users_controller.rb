@@ -94,4 +94,8 @@ class UsersController < ApplicationController
 		user.destroy
 		redirect_to landing_page_path
 	end
+
+	def leaderboard
+		@users = User.select("username, balance").order(balance: :desc).limit(10)
+	end
 end

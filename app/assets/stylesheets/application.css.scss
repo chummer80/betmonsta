@@ -37,7 +37,7 @@ h1 {
 header {
 	padding: 20px;
 	background-color: $main-color;
-	color: white;
+	color: $white;
 	text-align: center;
 
 	> div {
@@ -54,16 +54,16 @@ header {
 		}
 	}
 
-	#login-links {
+	#login-links,#leaderboard-link {
 		a {
-			color: white;
+			color: $white;
 			margin-left: 15px;
 		}
 	}
 }
 
 .open-dropdown-indicator {
-	@include triangle(5px, white, 'down');
+	@include triangle(5px, $white, 'down');
 }
 
 .centered-med-up {

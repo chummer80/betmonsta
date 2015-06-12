@@ -1,10 +1,13 @@
 <header class="row centered-med-up">
-	<!-- <div class="left medium-3 columns">Left Div</div> -->
 
-	<div id="title" class="medium-6 medium-offset-3 columns">
+	<div id="title" class="medium-6 medium-push-3 columns">
 		<%= link_to(landing_page_path) do %>
 			<%= image_tag("betmonsta_logo.png") %>
 		<% end %>
+	</div>
+
+	<div id="leaderboard-link" class="left medium-3 medium-pull-6 columns">
+		<%= link_to "Leaderboard", leaderboard_path %>
 	</div>
 
 	<% if logged_in? %>
