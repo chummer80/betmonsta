@@ -1,0 +1,18 @@
+
+<% if user_list.length %>
+	<div class="leaderboard-container centered-block">
+		<div class="row leaderboard-header">
+			<div class="small-12 columns"><%= table_title %></div>
+		</div>
+
+		<% user_list.each_index do |index| %>
+			<% user = user_list[index] %>
+			<div class="row leaderboard-row">
+				<div class="small-1 columns rank"><%= index + 1 %></div>
+				<div class="small-7 columns name"><%= user.username %></div>
+				<div class="small-4 columns money"><%= number_to_currency user[column_name] %></div>
+
+			</div>
+		<% end %>
+	</div>
+<% end %>

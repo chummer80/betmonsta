@@ -1,19 +1,11 @@
 <% title "Leaderboard" %>
 
-<% if @users.length %>
-	<div class="leaderboard-container centered-block">
-		<div class="row leaderboard-header">
-			<div class="small-12 columns">Richest BetMonstas</div>
-		</div>
+<%= render partial: 'leaderboard_table', locals: {
+		table_title: "Most Profitable Betmonstas", 
+		column_name: "total_profit",
+		user_list: @total_leaders} %>
 
-		<% @users.each_index do |index| %>
-			<% user = @users[index] %>
-			<div class="row leaderboard-row">
-				<div class="small-1 columns rank"><%= index + 1 %></div>
-				<div class="small-7 columns name"><%= user.username %></div>
-				<div class="small-4 columns money"><%= number_to_currency user.balance %></div>
-
-			</div>
-		<% end %>
-	</div>
-<% end %>
+<%= render partial: 'leaderboard_table', locals: {
+		table_title: "Most Profit (Last 10 Days)", 
+		column_name: "ten_day_profit",
+		user_list: @ten_day_leaders} %>

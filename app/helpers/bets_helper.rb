@@ -23,6 +23,7 @@ module BetsHelper
 		# if user is not specified, then resolve all users' bets
 		resolving_all_users = !user
 		resolved_bet_count = 0
+		affected_users = {}
 
 		%w(nba nfl mlb nhl).each do |sport|
 			if resolving_all_users
@@ -59,25 +60,31 @@ module BetsHelper
 					home_team_beat_spread = home_team_score > away_team_score
 					
 					bet_attributes = {}
+					user_attributes = {}
 					
 					# if these are both true or both false, the bet won
 					if home_team_score == away_team_score
 						bet_attributes[:result] = "P"
-						user_attributes = {}
+
 						# get back risk amount in the case of a push
 						user_attributes[:balance] = bet_owner.balance + bet.risk_amount
 						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
-						bet_owner.update_attributes(user_attributes)
 					elsif home_team_beat_spread == bet.home_picked
 						bet_attributes[:result] = "W"
-						user_attributes = {}
+
 						# get back risk amount in addition to win amount
 						user_attributes[:balance] = bet_owner.balance + bet.risk_amount + BetsHelper.win_amount(bet.risk_amount, bet.odds)
 						user_attributes[:max_balance] = [bet_owner.max_balance, bet_owner.balance].max
-						bet_owner.update_attributes(user_attributes)
+						# keep track of total profit
+						user_attributes[:total_profit] = bet_owner.total_profit + BetsHelper.win_amount(bet.risk_amount, bet.odds)
 					else
 						bet_attributes[:result] = "L"
+
+						# keep track of total profit
+						user_attributes[:total_profit] = bet_owner.total_profit - bet.risk_amount
 					end
+					bet_owner.update_attributes(user_attributes)
+					affected_users[bet_owner.username] = true	# list of users to do profit calculations for
 
 					bet_attributes[:result_time] = Time.zone.now
 					bet_attributes[:resulting_balance] = bet_owner.balance
@@ -87,6 +94,25 @@ module BetsHelper
 					resolved_bet_count += 1
 				end
 			end
+		end
+
+		# do profit calculations only for users that have just had bets resolved
+		affected_users.each_key do |affected_username|
+			affected_user = User.find_by(username: affected_username)
+
+			bets_in_range = affected_user.bets.where(result: %w(W L), result_time: (Time.zone.now - 10.days)..Time.zone.now)
+			profit_in_range = bets_in_range.inject(0) do |result, bet|
+				if bet.result == "W" 
+					money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
+				elsif bet.result == "L" 
+					money_change = -bet.risk_amount
+				else 
+					money_change = 0
+				end
+				result + money_change
+			end
+
+			affected_user.update_attributes(ten_day_profit: profit_in_range)
 		end
 
 		puts "Done Resolving Bets: #{resolved_bet_count}"

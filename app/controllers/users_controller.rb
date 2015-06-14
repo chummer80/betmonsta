@@ -96,6 +96,10 @@ class UsersController < ApplicationController
 	end
 
 	def leaderboard
-		@users = User.select("username, balance").order(balance: :desc).limit(10)
+		# richest current players
+		# @users = User.select("username, balance").order(balance: :desc).limit(10)
+
+		@total_leaders = User.select("username, total_profit").order(total_profit: :desc).limit(10)
+		@ten_day_leaders = User.select("username, ten_day_profit").order(ten_day_profit: :desc).limit(10)
 	end
 end
