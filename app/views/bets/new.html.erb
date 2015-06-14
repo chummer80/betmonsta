@@ -7,77 +7,77 @@
 <% else %>
 	<%= form_tag(create_bets_path, {method: :post}) do %>
 	
-	<%= hidden_field_tag('lines', @lines.to_json) %>
-	<%= hidden_field_tag('sport', @sport) %>
+		<%= hidden_field_tag('lines', @lines.to_json) %>
+		<%= hidden_field_tag('sport', @sport) %>
 
-	<fieldset id="wager_fieldset" class="centered-block centered-text">
-		<div class="wager row">
-			<div class="small-8 columns">
-				<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>
-			</div>
-			<div class="small-4 columns">
-				<%= text_field_tag "bet_amount", "0.00", {pattern: '[0-9]+(\.[0-9]{0,2})?'} %>
-			</div>
-		</div>
-
-		<%= submit_tag "Place Selected Bets" %>
-	</fieldset>
-
-	<div class="lines-table">
-		<div class="lines_table_header row">
-			<div class="small-3 columns left-content">Date/Time</div>
-			<div class="small-9 columns">
-				<div class="row">
-					<div class="small-7 columns left-content">Team</div>
-					<div class="small-3 columns centered-col"><%= @bet_type == :spread ? "Spread" : "Moneyline" %></div>
-					<div class="small-2 columns centered-col">Bet</div>
+		<fieldset id="wager_fieldset" class="centered-block centered-text">
+			<div class="wager row">
+				<div class="small-8 columns">
+					<%= label_tag("bet_amount", "Wager per bet: $", {class: "right inline"}) -%>
+				</div>
+				<div class="small-4 columns">
+					<%= text_field_tag "bet_amount", "0.00", {pattern: '[0-9]+(\.[0-9]{0,2})?'} %>
 				</div>
 			</div>
-		</div>
 
-		<% show_line = @bet_type == :spread ? :spread : :odds %>
-		<% @lines.each_index do |i| %>
-			<% line = @lines[i] %>
-			<div class="match row">
-				<div class="small-3 columns date-time left-content">
-					<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
-				</div>
+			<%= submit_tag "Place Selected Bets" %>
+		</fieldset>
+
+		<div class="lines-table">
+			<div class="lines_table_header row">
+				<div class="small-3 columns left-content">Date/Time</div>
 				<div class="small-9 columns">
+					<div class="row">
+						<div class="small-7 columns left-content">Team</div>
+						<div class="small-3 columns centered-col"><%= @bet_type == :spread ? "Spread" : "Moneyline" %></div>
+						<div class="small-2 columns centered-col">Bet</div>
+					</div>
+				</div>
+			</div>
 
-					<div class="away-team row">
-						<div class="small-7 columns left-content">
-							<%= line[:teams][:away] + " at" %>
+			<% show_line = @bet_type == :spread ? :spread : :odds %>
+			<% @lines.each_index do |i| %>
+				<% line = @lines[i] %>
+				<div class="match row">
+					<div class="small-3 columns date-time left-content">
+						<%= Time.zone.at(line[:timestamp]).to_formatted_s(:short_12h) %>
+					</div>
+					<div class="small-9 columns">
+
+						<div class="away-team row">
+							<div class="small-7 columns left-content">
+								<%= line[:teams][:away] + " at" %>
+							</div>
+							<div class="small-3 columns centered-col">
+								<%= line_to_s(line[show_line][:away]) %>
+							</div>
+							<div class="small-2 columns bet-input-cell">
+								<% switch_name = "boxes[#{i}][away]" %>
+								<div class="tiny switch">
+									<%= check_box_tag(switch_name) %>
+									<%= label_tag(switch_name) %>
+								</div>
+							</div>
 						</div>
-						<div class="small-3 columns centered-col">
-							<%= line_to_s(line[show_line][:away]) %>
-						</div>
-						<div class="small-2 columns bet-input-cell">
-							<% switch_name = "boxes[#{i}][away]" %>
-							<div class="tiny switch">
-								<%= check_box_tag(switch_name) %>
-								<%= label_tag(switch_name) %>
+
+						<div class="home-team row">
+							<div class="small-7 columns left-content">
+								<%= line[:teams][:home] %>
+							</div>
+							<div class="small-3 columns centered-col">
+								<%= line_to_s(line[show_line][:home]) %>
+							</div>
+							<div class="small-2 columns bet-input-cell">
+								<% switch_name = "boxes[#{i}][home]" %>
+								<div class="tiny switch">
+									<%= check_box_tag(switch_name) %>
+									<%= label_tag(switch_name) %>
+								</div> 
 							</div>
 						</div>
 					</div>
-
-					<div class="home-team row">
-						<div class="small-7 columns left-content">
-							<%= line[:teams][:home] %>
-						</div>
-						<div class="small-3 columns centered-col">
-							<%= line_to_s(line[show_line][:home]) %>
-						</div>
-						<div class="small-2 columns bet-input-cell">
-							<% switch_name = "boxes[#{i}][home]" %>
-							<div class="tiny switch">
-								<%= check_box_tag(switch_name) %>
-								<%= label_tag(switch_name) %>
-							</div> 
-						</div>
-					</div>
 				</div>
-			</div>
-		<% end %>
-	</div>
+			<% end %>
+		</div>
 	<% end %>
 <% end %>
