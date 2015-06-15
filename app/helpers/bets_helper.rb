@@ -99,20 +99,7 @@ module BetsHelper
 		# do profit calculations only for users that have just had bets resolved
 		affected_users.each_key do |affected_username|
 			affected_user = User.find_by(username: affected_username)
-
-			bets_in_range = affected_user.bets.where(result: %w(W L), result_time: (Time.zone.now - 10.days)..Time.zone.now)
-			profit_in_range = bets_in_range.inject(0) do |result, bet|
-				if bet.result == "W" 
-					money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
-				elsif bet.result == "L" 
-					money_change = -bet.risk_amount
-				else 
-					money_change = 0
-				end
-				result + money_change
-			end
-
-			affected_user.update_attributes(ten_day_profit: profit_in_range)
+			UsersHelper.calculate_ten_day_profit(affected_user)
 		end
 
 		puts "Done Resolving Bets: #{resolved_bet_count}"

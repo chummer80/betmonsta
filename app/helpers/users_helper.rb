@@ -10,4 +10,37 @@ module UsersHelper
 			end
 		end
 	end
+
+
+	def self.calculate_ten_day_profit(user)
+		bets_in_range = user.bets.where(result: %w(W L), result_time: (Time.zone.now - 10.days)..Time.zone.now)
+		profit_in_range = bets_in_range.inject(0) do |result, bet|
+			if bet.result == "W" 
+				money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
+			elsif bet.result == "L" 
+				money_change = -bet.risk_amount
+			else 
+				money_change = 0
+			end
+			result + money_change
+		end
+
+		user.update_attributes(ten_day_profit: profit_in_range)
+	end
+
+	def self.calculate_total_profit(user)
+		bets_in_range = user.bets.where(result: %w(W L))
+		profit_in_range = bets_in_range.inject(0) do |result, bet|
+			if bet.result == "W" 
+				money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
+			elsif bet.result == "L" 
+				money_change = -bet.risk_amount
+			else 
+				money_change = 0
+			end
+			result + money_change
+		end
+
+		user.update_attributes(total_profit: profit_in_range)
+	end
 end
