@@ -14,10 +14,12 @@ task :reload_wallets => :environment do
 end
 
 desc "This task is a one-time total profit calculation"
-task :calculate_total_profit => :environment do
-	puts "calculating total profit of all users..."
+task :calculate_profit => :environment do
+	puts "calculating profit of all users..."
 	User.all.each do |user|
-		UsersHelper.calculate_total_profit(user)
+		UsersHelper.calculate_profit(user, "total_profit")
+		UsersHelper.calculate_profit(user, "ten_day_profit")
+		UsersHelper.calculate_profit(user, "thirty_day_profit")
 	end
 	puts "done."
 end

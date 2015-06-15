@@ -12,10 +12,22 @@ module UsersHelper
 	end
 
 
-	def self.calculate_ten_day_profit(user)
-		bets_in_range = user.bets.where(result: %w(W L), result_time: (Time.zone.now - 10.days)..Time.zone.now)
+	def self.calculate_profit(user, range_name)
+		case range_name
+		when "total_profit"
+			range = nil
+		when "ten_day_profit"
+			range = (Time.zone.now - 10.days)..Time.zone.now
+		when "thirty_day_profit"
+			range = (Time.zone.now - 30.days)..Time.zone.now
+		end
+
+		query = {result: %w(W L)}
+		query[:result_time] = range unless range == nil
+
+		bets_in_range = user.bets.where(query)
 		profit_in_range = bets_in_range.inject(0) do |result, bet|
-			if bet.result == "W" 
+			if bet.result == "W"
 				money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
 			elsif bet.result == "L" 
 				money_change = -bet.risk_amount
@@ -25,22 +37,9 @@ module UsersHelper
 			result + money_change
 		end
 
-		user.update_attributes(ten_day_profit: profit_in_range)
+		attributes = {}
+		attributes[range_name.to_sym] = profit_in_range
+		user.update_attributes(attributes)
 	end
 
-	def self.calculate_total_profit(user)
-		bets_in_range = user.bets.where(result: %w(W L))
-		profit_in_range = bets_in_range.inject(0) do |result, bet|
-			if bet.result == "W" 
-				money_change = BetsHelper.win_amount(bet.risk_amount, bet.odds)
-			elsif bet.result == "L" 
-				money_change = -bet.risk_amount
-			else 
-				money_change = 0
-			end
-			result + money_change
-		end
-
-		user.update_attributes(total_profit: profit_in_range)
-	end
 end

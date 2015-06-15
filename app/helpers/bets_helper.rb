@@ -99,7 +99,9 @@ module BetsHelper
 		# do profit calculations only for users that have just had bets resolved
 		affected_users.each_key do |affected_username|
 			affected_user = User.find_by(username: affected_username)
-			UsersHelper.calculate_ten_day_profit(affected_user)
+			UsersHelper.calculate_profit(affected_user, "ten_day_profit")
+			UsersHelper.calculate_profit(affected_user, "thirty_day_profit")
+			# total_profit should alrady be calculated during bet resolution
 		end
 
 		puts "Done Resolving Bets: #{resolved_bet_count}"
