@@ -13,7 +13,8 @@ class YahooSportsScraper
 			return false
 		end
 
-		url = "#{@@base_url}/#{league}/scoreboard" 
+		date_suffix = Time.zone.now.strftime('%Y-%m-%d')
+		url = "#{@@base_url}/#{league}/scoreboard/?date=#{date_suffix}" 
 		html = Nokogiri::HTML(open(url))
 
 

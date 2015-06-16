@@ -1,7 +1,10 @@
 desc "This task scrapes the Yahoo sports page for scores then resolves all open bets of all users."
 task :resolve_bets => :environment do
 	puts "Resolving bets..."
-	BetsHelper.resolve_bets
+	File.open('task_log.txt', 'a') do |f|
+		f.print "#{Time.zone.now}:   "
+		f.puts BetsHelper.resolve_bets
+	end
 	puts "done."
 end
 
@@ -9,7 +12,10 @@ end
 desc "This task gives money to broke users so they can play again."
 task :reload_wallets => :environment do
 	puts "Reloading wallets of broke users..."
-	UsersHelper.reload_wallets
+	File.open('task_log.txt', 'a') do |f|
+		f.print "#{Time.zone.now}:   "
+		f.puts UsersHelper.reload_wallets
+	end
 	puts "done."
 end
 

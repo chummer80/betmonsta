@@ -104,7 +104,6 @@ module BetsHelper
 			# total_profit should alrady be calculated during bet resolution
 		end
 
-		puts "Done Resolving Bets: #{resolved_bet_count}"
-		return
+		return "Resolved Bets: #{resolved_bet_count}"
 	end
 end
