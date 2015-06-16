@@ -1,13 +1,21 @@
 language: ruby
 rvm:
-  - 2.2.1
+- 2.2.1
 branches:
   only:
-    - master
+  - master
 install:
-  - "travis_retry bundle install"  
-script: 
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rspec
+- travis_retry bundle install
+script:
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rspec
 before_script:
-  - psql -c 'create database betmonsta_test;' -U postgres
+- psql -c 'create database betmonsta_test;' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: MlmMTPLFgQQQCtsu9i9l5cPfN2rCDGY497E/nqMTl+9mML+LPzbPxvHA5G/pxn5LTVsRBuohazTIXaaDSMVR+VC8KR1D9RMvzhLimDbZZlcWi7LwEeiWwPLAJ8vxAJ8a/sSIsEa5IkdEOZ7fuaAwuG78wk4pmv2+XeakTxM6TwJ8IBybjRfbxH77+/b8nCEBYZOwGXYBa3f2TE4Zu4lYOHEGfnCUbwW+raj+bBF3v3EREZmYl1QC6an0uLPMjTlDkiwhDyupo3TFRWhDRG1tLIU4BBIZgyJkGq4OnTWHoxiiE7S8pCcua+nd5ykgWokf/su4iN8wYpOD+8mF4W5xHnL0pfnfH4aNfap7pApVJy9iuFZuBLsnO+5Q0KJqIglbolibeHfZb6W/sSmDF02XMwnNf8I7ynJmI3Ny/yFmS086MP44CUcbqwRPbJ7nrD7MsOYR6azRfhJkgEKXJVxr6jf0YFfb/OTu6bpdSeIDfsvavi4hLtPHmePdNQEcwgXroNG2HZCCXtF/3d8MbAZxvN7qOAafNoS2hwnEx4dSRJ2RTISfxWjjYM1Q05LIX4NGE2UiPIL0XjMhzQSRbi1fPrgAotW220yAot6D/36dmGo/GZIB0VKQA4IS+wLzpltQOM7Y725NsSRP6J0oH0ITUWau9PksTcxQLvSH+qSqQic=
+  app: betmonsta
+  run:
+    - "rake db:migrate"
+    - restart
