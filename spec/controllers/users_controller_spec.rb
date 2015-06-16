@@ -151,4 +151,20 @@ RSpec.describe UsersController, :type => :controller do
 			expect(User.find_by(username: "asdf")).to be_truthy
 		end
 	end
+
+	context "dashboard" do
+		it "should return dashboard view if user is authorized" do
+			allow(controller).to receive(:authorize).and_return(FactoryGirl.build(:valid_user))
+			get :dashboard
+
+			expect(response).to render_template(:dashboard)
+		end
+
+		it "should return login page view if user is not authorized" do
+			# allow(controller).to receive(:authorize).and_return(FactoryGirl.build(:valid_user))
+			get :dashboard
+
+			expect(response).to redirect_to(new_session_path)
+		end
+	end
 end
