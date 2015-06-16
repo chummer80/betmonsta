@@ -27,12 +27,16 @@ class YahooSportsScraper
 
 		scores_nodelist.each do |score_node|
 			score = {}
-			
-			if is_final_score?(league, score_node)
+			ppd = is_ppd?(league, score_node)
+			if is_final_score?(league, score_node) || ppd
 				score[:timestamp] = scores_date
-
 				score[:teams] = get_teams(league, score_node)
-				score[:final_scores] = get_final_scores(league, score_node)
+				if ppd
+					score[:final_scores] = {home: "PPD", away: "PPD"}
+				else
+					score[:final_scores] = get_final_scores(league, score_node)
+				end
+
 				scores << score
 			end
 		end
@@ -153,6 +157,22 @@ private
 		text_array = get_text(game_status_node)
 
 		text_array.grep(/Final/).size > 0
+	end
+
+	def self.is_ppd?(league, score_node)
+		case league
+		when "mlb"
+			game_status_node = score_node.css('.links .meta a').first
+		when "nba", "nhl"
+			game_status_node = score_node.css('.details span').first
+		when "nfl"
+			game_status_node = nil
+		end
+		
+		return unless game_status_node
+		text_array = get_text(game_status_node)
+
+		text_array.grep(/Ppd/).size > 0
 	end
 
 	def self.get_date_time(match_node)

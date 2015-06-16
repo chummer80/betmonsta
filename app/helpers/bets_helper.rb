@@ -46,24 +46,29 @@ module BetsHelper
 				matching_bets.each do |bet|
 					bet_owner = resolving_all_users ? bet.user : user
 
-					# convert scores to numbers so they can be modified and compared properly
-					home_team_score = score[:final_scores][:home].to_f
-					away_team_score = score[:final_scores][:away].to_f
-
-					# add spread to the team that was bet on
-					if bet.home_picked
-						home_team_score += bet.spread
-					else
-						away_team_score += bet.spread
-					end
-
-					home_team_beat_spread = home_team_score > away_team_score
+					# first handle postponed games that have no score
+					postponed = (score[:final_scores][:home] == "PPD") || (score[:final_scores][:away] == "PPD")
 					
+					if !postponed
+						# convert scores to numbers so they can be modified and compared properly
+						home_team_score = score[:final_scores][:home].to_f
+						away_team_score = score[:final_scores][:away].to_f
+
+						# add spread to the team that was bet on
+						if bet.home_picked
+							home_team_score += bet.spread
+						else
+							away_team_score += bet.spread
+						end
+
+						home_team_beat_spread = home_team_score > away_team_score
+					end
+						
 					bet_attributes = {}
 					user_attributes = {}
 					
 					# if these are both true or both false, the bet won
-					if home_team_score == away_team_score
+					if postponed || (home_team_score == away_team_score)
 						bet_attributes[:result] = "P"
 
 						# get back risk amount in the case of a push
