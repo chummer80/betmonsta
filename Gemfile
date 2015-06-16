@@ -50,5 +50,16 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'pry-byebug'
+
+  gem 'rspec-rails', '~> 3.0.0'
+
+  gem 'shoulda-matchers', require: false
+
+  gem 'capybara'
+
+  gem 'factory_girl_rails'
+
+  #ADD IN simplecov gem
+  gem 'simplecov', :require => false
 end
 
