@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 		
 		if user.authenticate(params[:password])
 			if params[:new_password] == params[:new_password_confirmation]
-				if params[:new_password].length < 6
+				if params[:new_password].length >= 6
 					if user.update_attributes({
 						password: params[:new_password], 
 						password_confirmation: params[:new_password_confirmation]

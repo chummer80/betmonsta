@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 	attr_accessor :remember_token
 	has_many :bets
 
-	validates :username, 
+	validates :username, on: :create, 
 		presence: true, 
 		uniqueness: {case_sensitive: false},
 		length: {minimum: 4, maximum: 20},
@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
 	# validates :password_digest, 
 	# 	presence: true
 	has_secure_password
-	validates :password, presence: true, length: {minimum: 6}
+	validates :password, on: :create, 
+		presence: true,
+		length: {minimum: 6}
 	validates :balance, 
 		presence: true, 
 		numericality: {greater_than_or_equal_to: 0}
