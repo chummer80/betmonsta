@@ -61,7 +61,7 @@ development:
 
 test:
   adapter: postgresql
-  database: travis_ci_test
+  database: betmonsta_test
   username: postgres
 
 # As with config/secrets.yml, you never want to store sensitive information,
