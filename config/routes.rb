@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'application#index', as: :landing_page
 
-  get 'users', to: 'users#index', as: :users
+  # get 'users', to: 'users#index', as: :users
   get 'leaderboard', to: 'users#leaderboard', as: :leaderboard
   get 'signup', to: 'users#new', as: :new_user
   post 'signup', to: 'users#create', as: :create_user

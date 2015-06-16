@@ -2,9 +2,9 @@ class UsersController < ApplicationController
 	before_action :authorize, only: [:index, :dashboard, :show, :edit_password, :update_password, :confirm_delete, :destroy]
 	before_action :unauthorize, only: [:new, :create]
 	
-	def index
-		redirect_to landing_page_path
-	end
+	# def index
+	# 	redirect_to landing_page_path
+	# end
 
 	def new
 		@user = User.new
@@ -17,12 +17,18 @@ class UsersController < ApplicationController
 
 		if User.find_by(username: user_params[:username])
 			error_msg = "That username is taken!"
+		elsif user_params[:username].length < 4
+			error_msg = "Username must be at least 4 characters long"
+		elsif user_params[:username].length > 20
+			error_msg = "Username must be at most 20 characters long"
 		elsif user_params[:password] != user_params[:password_confirmation]
 			error_msg = "Passwords didn't match"
+		elsif user_params[:password].length < 6
+			error_msg = "Password must be at least 6 characters long"
 		else
 			# set some default values for user stats
 			user_params[:balance] = 10.0
-			user_params[:max_balance] = 0.0
+			user_params[:max_balance] = 10.0
 			user_params[:ten_day_profit] = 0.0
 			user_params[:thirty_day_profit] = 0.0
 			user_params[:total_profit] = 0.0
@@ -63,12 +69,19 @@ class UsersController < ApplicationController
 		
 		if user.authenticate(params[:password])
 			if params[:new_password] == params[:new_password_confirmation]
-				if user.update_attributes({password: params[:new_password]})
-					flash[:info] = "Your password has been changed"
-					redirect_to user_path
-					return
-				else
-					error_msg = "Unable to update password"
+				if params[:new_password].length < 6
+					if user.update_attributes({
+						password: params[:new_password], 
+						password_confirmation: params[:new_password_confirmation]
+					})
+						flash[:info] = "Your password has been changed"
+						redirect_to user_path
+						return
+					else
+						error_msg = "Unable to update password"
+					end
+				else 
+					error_msg = "Password must be at least 6 characters long"
 				end
 			else
 				error_msg = "You must enter the same new password twice in order to change it"

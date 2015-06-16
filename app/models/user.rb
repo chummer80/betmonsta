@@ -1,15 +1,31 @@
 class User < ActiveRecord::Base
 	attr_accessor :remember_token
-	has_secure_password
 	has_many :bets
 
-	validates :username, presence: true, uniqueness: { case_sensitive: false }
-	validates :password_digest, presence: true
-	validates :balance, presence: true, numericality: {greater_than_or_equal_to: 0}
-	validates :max_balance, presence: true, numericality: {greater_than_or_equal_to: 0}
-	validates :ten_day_profit, presence: true, numericality: true
-	validates :thirty_day_profit, presence: true, numericality: true
-	validates :total_profit, presence: true, numericality: true
+	validates :username, 
+		presence: true, 
+		uniqueness: {case_sensitive: false},
+		length: {minimum: 4, maximum: 20},
+		format: {without: /\s/}
+	# validates :password_digest, 
+	# 	presence: true
+	has_secure_password
+	validates :password, presence: true, length: {minimum: 6}
+	validates :balance, 
+		presence: true, 
+		numericality: {greater_than_or_equal_to: 0}
+	validates :max_balance, 
+		presence: true, 
+		numericality: {greater_than_or_equal_to: 0}
+	validates :ten_day_profit, 
+		presence: true, 
+		numericality: true
+	validates :thirty_day_profit, 
+		presence: true, 
+		numericality: true
+	validates :total_profit, 
+		presence: true, 
+		numericality: true
 
 
 	# Returns the hash digest of the given string.
@@ -25,7 +41,7 @@ class User < ActiveRecord::Base
 
 	# Remembers a user in the database for use in persistent sessions.
 	def remember
-  	self.remember_token = User.new_token
+  		self.remember_token = User.new_token
  		update_attribute(:remember_digest, User.digest(remember_token))
 	end
 
