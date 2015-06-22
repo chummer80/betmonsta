@@ -16,7 +16,7 @@ module BetsHelper
 			multiplier = 100.0 / odds.abs
 		end
 
-		risk_amount * multiplier
+		(risk_amount * multiplier).round(2)
 	end
 
 	def self.resolve_bets(user = nil)
